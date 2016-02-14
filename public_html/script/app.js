@@ -10,6 +10,9 @@ var app;
             .when("/home",{
                         templateUrl: 'home.html'
                     })
+                    .when("/productos",{
+                        templateUrl: '/productos/index.html'
+                    })
                     .otherwise({
                         redirectTo:"/home"
                     });

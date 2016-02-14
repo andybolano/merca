@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Mercamar | Dashboard</title>
+    <title>Credimar | Dashboard</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -27,26 +27,29 @@
                     <div class="dropdown profile-element"> <span>
                             <img alt="image" class="img-circle" src="../images/profile.png" width="60px"/>
                              </span>
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">Mercamar</strong>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">Credimar</strong>
                              </span> <span class="text-muted text-xs block">Administrador</span> </span> </a>
                     </div>
                 </li>
-                <li class="active">
+                <li class="item active">
                     <a href="#/home"><i class="fa fa-home"></i> <span class="nav-label">inicio</span></a>
   
                 </li>
-                <li>
+                <li class="item">
                     <a href="#/ventas"><i class="fa fa-shopping-cart"></i> <span class="nav-label">Ventas</span></a>
                 </li>
-                <li>
+                <li class="item">
                     <a href="#/recaudo"><i class="fa fa-briefcase"></i> <span class="nav-label">Recaudo</span></a>
                 </li>
-                <li>
+                <li class="item">
                     <a href="#/inventario"><i class="fa fa-tasks"></i> <span class="nav-label">Inventario</span></a>
                 </li>
-                <li>
+                <li class="item">
                     <a href="#/clientes"><i class="fa fa-user-plus"></i> <span class="nav-label">Clientes</span></a>
+                </li>
+                <li class="item">
+                    <a href="#/productos"><i class="fa fa-archive"></i> <span class="nav-label">Productos</span></a>
                 </li>
             </ul>
 
@@ -57,11 +60,11 @@
         <div class="row border-bottom">
         <nav class="navbar navbar-fixed-top white-bg" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
-            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="javascript:;"><i class="fa fa-bars"></i> </a>
         </div>
             <ul class="nav navbar-top-links navbar-right">
                 <li>
-                    <span class="m-r-sm text-muted welcome-message">Bienevido a Aplicacion Mercamar</span>
+                    <span class="m-r-sm text-muted welcome-message">Bienevido a Aplicacion Credimar</span>
                 </li>
                 <li>
                     <a href="login.html">
@@ -129,8 +132,11 @@
             $("body").addClass("md-skin");
     
      
+        $('li.item').click(function(){
+                        $('li.item').removeClass("active");
+                        $(this).addClass("active");
+                   });
 
-          
 
         });
     </script>
