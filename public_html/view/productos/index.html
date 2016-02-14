@@ -1,7 +1,98 @@
-<div class="wrapper wrapper-content">
-<div class="row">
-        <div class="col-lg-12">
-           
+<div class="row" ng-controller="productosController">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <div class="row">
+                <div class="col-lg-9">
+                <h2>Gestion de productos</h2>
+                </div>
+                 <div class="col-lg-3">
+                        <div class="input-group"><input type="text" placeholder="Buscador" class="input-sm form-control"  ng-model="filtro"> <span class="input-group-btn">
+                                <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-search"></i></button> </span></div>
+                    </div>
+                </div>
+                <div class="hr-line-dashed"></div>
+            </div>
+            
+            <div class="ibox-content">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Nombre</th>
+                            <th>Proveedor</th>
+                            <th>Valor Unitario</th>
+                            <th>Precion de Venta</th>
+                            <th>Descripcion</th>
+                            <th colspan="3" style="text-align: center">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr style="background-color: transparent">
+                            <td></td>
+                            <td><input type="text" class="form-control" ng-model="Productos.nombre"></td>
+                            <td>
+                                <select class="form-control m-b" name="account" ng-model="Productos.proveedor">
+                                <option value="1">proveedor 1</option>
+                                <option value="2">proveedor 2</option>
+                                <option value="3">proveedor 3</option>
+                                <option value="4">proveedor 4</option>
+                            </select>
+                            </td>
+                            <td><input type="number" class="form-control" ng-model="Productos.valorUnitario"></td>
+                            <td><input type="number" class="form-control" ng-model="Productos.precioVenta"></td>
+
+                            <td style="text-align: center" valign="center"><a href="javascript:;" title="Ingresar Despcripcion" data-toggle="modal" data-target="#modalDescripcion"><i class="fa fa-file-text" style="font-size:20px; color:#1A7BB9; margin-top:6px;"></i></a></td>
+                            <td>
+                                <button class="btn btn-primary" title="guardar" id="guardar" ng-click="guardar();"><i class="fa fa-save"></i></button>
+                            </td>
+                            <td>
+                                 <button class="btn btn-success" title="Editar" id="actualizar" ng-click="modificar();"><i class="fa fa-edit"></i></button>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger" title="Limpiar" id="limpiar" ng-click="limpiar();"><i class="fa fa-times"></i></button>
+                            </td>
+                        </tr>
+                          <tr ng-repeat="item in listaProductos | filter: filtro | orderBy:'-id'">
+                            <td>{{item.id}}</td>
+                            <td>{{item.nombre}}</td>
+                            <td>{{item.proveedor}}</td>
+                            <td>{{item.valorUnitario}}</td>
+                            <td>{{item.precioVenta}}</td>
+                            <td style="text-align: center"><a href="javasrcritp:;"  title="Ver descripcion" data-toggle="modal" data-target="#modalDescripcion" ng-click="showDescripcion(item.descripcion)"><i class="fa fa-eye" style="font-size:20px;color:#1A7BB9;"></i></a></td>
+                            <td></td>
+                            <td style="text-align: center"><a href="javasrcritp:;" title="Editar Producto" ng-click="cargarModificar(item)"><i class="fa fa-edit" style="font-size:20px;color:#1A7BB9;" ></i></a></td>
+                            <td style="text-align: center"><a href="javasrcritp:;" title="Eliminar Producto" ng-click="eliminar(item.id)"><i class="fa fa-trash" style="font-size:20px;color:#ED5565;"></i></a></td>
+                        </tr>
+                           </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
+      
+        
     </div>
+<div id="modalDescripcion" class="modal inmodal in fade" role="dialog">
+  <div class="modal-dialog modal-sm" style="margin-right:80px;margin-top:100px">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Ingresar Descripcion</h4>
+      </div>
+      <div class="modal-body">
+          <textarea ng-model="Productos.descripcion" id="descripcion" rows="4" cols="30" autofocus>
+              
+          </textarea>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>

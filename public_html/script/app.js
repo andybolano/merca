@@ -1,4 +1,4 @@
-var uri = "../../../public";
+var uri = "../../public";
 var app;
 (function(){
     app = angular.module("mercamar", ['ngRoute','ui.keypress']);
@@ -11,7 +11,7 @@ var app;
                         templateUrl: 'home.html'
                     })
                     .when("/productos",{
-                        templateUrl: '/productos/index.html'
+                        templateUrl: 'productos/index.html'
                     })
                     .otherwise({
                         redirectTo:"/home"
