@@ -50,7 +50,7 @@ class ProductosController extends Controller
             $data = $request->all();
         
             $producto = new Producto();
-             $producto->nombre = $data["nombre"];
+            $producto->nombre = $data["nombre"];
             $producto->proveedor= $data["proveedor"];
             $producto->valorUnitario= $data["valorUnitario"];
             $producto->precioVenta= $data["precioVenta"];

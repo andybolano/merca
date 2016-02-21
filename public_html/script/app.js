@@ -13,6 +13,9 @@ var app;
                     .when("/productos",{
                         templateUrl: 'productos/index.html'
                     })
+                    .when("/proveedores",{
+                        templateUrl: 'proveedor/index.html'
+                    })
                     .otherwise({
                         redirectTo:"/home"
                     });
