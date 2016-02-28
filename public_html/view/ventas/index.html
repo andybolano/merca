@@ -1,0 +1,134 @@
+<div class="row" ng-controller="ventasController" data-ng-init="productos()">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <div class="row">
+                <div class="col-lg-9">
+                <h2>Gestion de Ventas</h2>
+                </div>
+                
+                </div>
+                <div class="hr-line-dashed"></div>
+            </div>
+            
+            <div class="ibox-content">
+                <div class="row">
+                <div class="col-lg-4">
+                    <h3>Listado de Productos</h3>
+                    
+                    <div class="input-group"><input type="text" placeholder="Buscador" class="input-sm form-control"  ng-model="filtro"> <span class="input-group-btn">
+                                <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-search"></i></button> </span></div>
+                     <div class="table-responsive" style="height:350px;">
+                    <table class="table table-striped">
+                        <tr ng-repeat ="item in listaProductos | filter: filtro">
+                            <td>{{item.id}}</td>
+                            <td>{{item.nombre}}</td>
+                            <td>{{item.precioVenta}}</td>
+                            <td><a href="javascript:;" ng-click="addCart(item)"><i class="fa fa-plus-square" style="font-size:18px;"></i></a></td>
+                        </tr>
+                    </table>
+                     </div>
+                </div>
+                <div class="col-lg-8">
+                    <h4><i class="fa fa-shopping-cart" style="font-size:20px;"></i>&nbsp;&nbsp;Carrito de compras</h4>
+                    
+                       <div class="table-responsive" style="height:230px;">
+                           <table class="table table-striped" >
+                               <thead>
+                               <th>
+                                   Articulo
+                               </th>
+                               <th>
+                                   Valor
+                               </th>
+                               <th width="20px">
+                                   Cantidad
+                               </th>
+                               <th>
+                                   Subtotal
+                               </th>
+                               </thead>
+                               <tbody>
+                                   <tr ng-repeat="item in listaCarrito">
+                                         <td>{{item.nombre}}</td>
+                                         <td>{{item.precioVenta}}</td>
+                                         <td style="text-align: center;"><input type="number" style="width: 45px;"></td>
+                                         <td></td>
+                                   </tr>
+                               </tbody>
+                           </table>
+                       </div> 
+                                   <div class="hr-line-dashed"></div>
+                    <div class="row">
+                        <div class="col-lg-7">
+                      <div class="table-responsive">
+                           <h4><i class="fa fa-file-text" style="font-size:18px;"></i>&nbsp;&nbsp;Informacion de factura</h4>
+                           <table class="table">
+                               <tbody>
+                                   <tr>
+                                       <td>Cliente:</td>
+                                       <td>
+                                               <div class="input-group"><input type="text" placeholder="Cedula" class="input-sm form-control" > <span class="input-group-btn">
+                                <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-search"></i></button> </span></div>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <td width="50%">Fecha de Compra:</td>
+                                       <td><input type="date" class="form-control"></td>
+                                   </tr>
+                                   <tr>
+                                       <td>Forma de Pago:</td>
+                                       <td><select class="form-control m-b" name="account">
+                                               <option value="CONTADO">
+                                                   CONTADO
+                                               </option >
+                                                <option value="CREDITO">
+                                                    CREDITO
+                                               </option>
+                                                <option value="CREDI-CONTADO">
+                                                    CREDI-CONTADO
+                                               </option>
+                                           </select></td>
+                                   </tr>
+                               </tbody>
+                           </table>
+                       </div> 
+                        </div>
+                        <div class="col-lg-5">
+                            <h4><i class="fa fa-users" style="font-size:18px;"></i>&nbsp;&nbsp;Informacion del cliente</h4>
+                             <table class="table">
+                               <tbody>
+                                   <tr>
+                                       <td>Cedula:</td>
+                                       <td></td>
+                                   </tr>
+                                   <tr>
+                                       <td>Nombres:</td>
+                                       <td></td>
+                                   </tr>
+                                   <tr>
+                                       <td>Telefono:</td>
+                                       <td></td>
+                                   </tr>
+                                   <tr>
+                                       <td>Direccion</td>
+                                       <td></td>
+                                   </tr>
+                               </tbody>
+                           </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12" style="text-align: right;">
+                            <button class="btn btn-danger">Registrar Venta</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
+
