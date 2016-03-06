@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 use App\Http\Controllers\Controller;
-
+use DB;
 use App\movimiento;
 
 class movimientosController extends Controller
@@ -101,11 +101,10 @@ class movimientosController extends Controller
     public function destroy($id)
     {
         try {
-            $proveedor = Proveedores::find($id);
-            $proveedor->delete();
-            return JsonResponse::create(array('message' => "Proveedpr Eliminado Correctamente", "request" =>json_encode($id)), 200);
+            DB::table('movimiento')->where('id_movimiento', $id)->delete();
+            return JsonResponse::create(array('message' => "Movimiento removido Correctamente", "request" =>json_encode($id)), 200);
         } catch (Exception $ex) {
-            return JsonResponse::create(array('message' => "No se pudo Eliminar el producto", "exception"=>$ex->getMessage(), "request" =>json_encode($id)), 401);
+            return JsonResponse::create(array('message' => "No se pudo remover el producto", "exception"=>$ex->getMessage(), "request" =>json_encode($id)), 401);
         }
   }
 }

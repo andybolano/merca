@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class  movimiento_entrada extends Model
+class  movimientoT extends Model
 {
     
-    protected $table = "movimiento_traslado";
+    protected $table = "movimientot";
     
     public $timestamps = false;
     
