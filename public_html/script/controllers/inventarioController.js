@@ -126,9 +126,15 @@ app.controller('inventarioController',['$scope','$http', function ($scope,$http)
             var hoy = new Date();
             var cad=hoy.getHours()+""+hoy.getMinutes()+""+hoy.getSeconds(); 
             $scope.movimiento.id_movimiento=dd+""+mm+""+yyyy+""+cad;
-            //$("#guardar").attr("disabled",true);
-            console.log($scope.movimiento);
-            switch (dato) {
+            $("#guardar").attr("disabled",true);
+            console.log($scope.listaCarrito)
+            if (productos.length==0)
+            {
+                toastr["error"]("No ha agregado articulos para realizar el movimiento");
+                $("#guardar").attr("disabled",false);
+            }else
+            {
+              switch (dato) {
                 case "E":
                     $http.post(uri+'/api/movimientos', $scope.movimiento).success(function (respuesta){
                     if (respuesta.message=="Movimiento Guardado Correctamente")
@@ -188,7 +194,10 @@ app.controller('inventarioController',['$scope','$http', function ($scope,$http)
                     
 		});
                     break;
+            }        
             }
+
+            
         };  
         
         $scope.remover = function (id_movimiento){ 
