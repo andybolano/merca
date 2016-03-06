@@ -7,12 +7,12 @@ app.controller('ventasController',['$scope','$http', function ($scope,$http){
             $http.get(uri+'/api/productos').success(function (respuesta){
                     $scope.listaProductos = respuesta;
             });
-        }
+        };
         
         $scope.addCart = function(producto){
           productos.push(producto);
           $scope.listaCarrito = productos;
-        }
+        };
        
     }]); 
 

@@ -1,99 +1,138 @@
-<div class="row">
+<div class="row" ng-controller="inventarioController" data-ng-init="productos()">
     <div class="col-lg-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <div class="row">
-                    <div class="col-lg-11">
-                        <h2>Movimientos de inventario</h2>
-                    </div>
-                    <div class="col-lg-1">
-                        <spa><a type="button" class="btn btn-sm btn-primary" title="clic para volver a la vista gestion de movimientos" href="#/inventario"><i class="fa fa-angle-left"></i></a>
-                    </div>
+                <div class="col-lg-9">
+                <h2>Movimientos de Inventario</h2>
+                </div>
+                
                 </div>
                 <div class="hr-line-dashed"></div>
             </div>
-
+            
             <div class="ibox-content">
-                <div class="table-responsive">
+                <div class="row">
+                <div class="col-lg-4">
+                    <h3>Listado de Productos</h3>
+                    
+                    <div class="input-group"><input type="text" placeholder="Buscador" class="input-sm form-control"  ng-model="filtro"> <span class="input-group-btn">
+                                <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-search"></i></button> </span></div>
+                     <div class="table-responsive" style="height:350px;">
                     <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Fecha</th>
-                                <th>Tipo</th>
-                                <th>Proveedor</th>
-                                <th>Alamcen</th>
-                                <th>Bodega</th>
-                                <th colspan="3" style="text-align: center">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr style="background-color: transparent">
-                                <td></td>
-                                <td><input type="text" class="form-control" ng-model="Productos.nombre"></td>
-                                <td>
-                                    <select class="form-control m-b" name="account" ng-model="Productos.proveedor">
-                                        <option value="1">Entrada</option>
-                                        <option value="2">Entrada (Devolución)</option>
-                                        <option value="3">Traslado (Almacen)</option>
-                                        <option value="4">Traslado (Camioneta)</option>
-                                    </select>
-                                </td>
-                                <td><input type="number" class="form-control" ng-model="Productos.valorUnitario"></td>
-                                <td><input type="number" class="form-control" ng-model="Productos.precioVenta"></td>
-
-                                <td style="text-align: center" valign="center"><input type="number" class="form-control" ng-model="Productos.precioVenta"></td>
-                                <td>
-                                    <button class="btn btn-primary" title="guardar" id="guardar" ng-click="guardar();"><i class="fa fa-save"></i></button>
-                                </td>
-                                <td>
-                                    <button class="btn btn-success" title="Editar" id="actualizar" ng-click="modificar();"><i class="fa fa-edit"></i></button>
-                                </td>
-                                <td>
-                                    <button class="btn btn-danger" title="Limpiar" id="limpiar" ng-click="limpiar();"><i class="fa fa-times"></i></button>
-                                </td>
-                        </tbody>
+                        <tr ng-repeat ="item in listaProductos | filter: filtro">
+                            <td>{{item.id}}</td>
+                            <td>{{item.nombre}}</td>
+                            <td><a href="javascript:;" ng-click="addCart(item)"><i class="fa fa-plus-square" style="font-size:18px;"></i></a></td>
+                        </tr>
                     </table>
-                    <div class="col-lg-12">
-                        <div class="panel panel-success">
-                            <div class="panel-heading">
-                                Productos
-                            </div>
-                        </div>
+                     </div>
+                </div>
+                <div class="col-lg-8">
+                    <h4><i class="fa fa-archive" style="font-size:20px;"></i>&nbsp;&nbsp;productos</h4>
+                    
+                       <div class="table-responsive" style="height:230px;">
+                           <table class="table table-striped" >
+                               <thead>
+                                <th>
+                               </th>
+                               <th>
+                                   Articulo
+                               </th>
+                               <th width="20px">
+                                   Cantidad
+                               </th>
+                               </thead>
+                               <tbody>
+                                   <tr ng-repeat="item in listaCarrito">
+                                       <td>{{item.producto}}</td>
+                                         <td>{{item.nombre}}</td>
+                                         <td style="text-align: center;">{{item.cantidad}}</td>
+                                         <td></td>
+                                   </tr>
+                               </tbody>
+                           </table>
+                       </div> 
+                     <div class="hr-line-dashed"></div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                      <div class="table-responsive">
+                           <h4><i class="fa fa-file-text" style="font-size:18px;"></i>&nbsp;&nbsp;Informacion del movimiento</h4>
+                           <table class="table">
+                               <tbody>
+                                   <tr>
+                                       <td>Fecha:</td>
+                                       <td><input type="date" class="form-control" value="yyy-mm-dd" ng-model="movimiento.fecha_movimiento" required=""></td>
+                                         <td>Proveedor:</td>
+                                          <td>
+                                          <select class="form-control m-b" name="account" style="width: inherit;" id="proveedor" ng-model="movimiento.proveedor">
+                                                 <option></option>
+                                             <option ng-value="{{item.id}}" ng-repeat="item in listaProveedores">{{item.nombre.toUpperCase()}}</option>
+                                          </select>
+                                          </td>
+                                   </tr>
+                                   <tr>
+                                       <td width="50%">Tipo movimiento</td>
+                                       <td><select class="form-control m-b" name="movimiento" id="movimiento" onchange="angular.element(this).scope().tipomoviento()" ng-model="movimiento.tipo_movimiento">
+                                               <option></option>
+                                              <option value="ENTRADA (COMPRA)">
+                                                   ENTRADA (COMPRA)
+                                               </option >
+                                                <option value="ENTRADA (DEVOLUCION)">
+                                                    ENTRADA (DEVOLUCION)
+                                               </option>
+                                                <option value="ENTRADA (CAMIONETA)">
+                                                    ENTRADA (CAMIONETA)
+                                               </option>
+                                                <option value="TRASLADO  (ALMACEN)">
+                                                    TRASLADO  (ALMACEN)
+                                               </option>
+                                               <option value="TRASLADO  (CAMIONETA)">
+                                                    TRASLADO  (CAMIONETA)
+                                               </option>
+                                           </select>
+                                       </td>
+                                           <td width="50%">Bodega</td>
+                                           <td><select class="form-control m-b" name="account" ng-model="movimiento.lugar" id="bodega">
+                                               <option></option>
+                                               <option value="BODEGA (PRINCIPAL)">
+                                                   PRINCIPAL
+                                               </option >
+                                           </select></td>
+                                               
+                                   </tr>
+                                   <tr>
+                                       <td>Almacen traslado:</td>
+                                       <td><select class="form-control m-b" name="account" id="traslado" ng-model="movimiento.lugar">
+                                               <option></option>
+                                               <option value="PRINCIPAL (ALMACEN)">
+                                                   PRINCIPAL
+                                               </option >
+                                         <option value="CAMIONETA">
+                                                   CAMIONETA
+                                               </option >
+                                           </select>
+                                       </td>
+                                       
+                                       <td></td>
+                                       <td></td>
+                                   </tr>
+                               </tbody>
+                           </table>
+                        </div> 
+                     </div>
                     </div>
-                    <div class="col-lg-12">
-                        <div class="">
-                            <div class="panel-body">
-                                 <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Codigo</th>
-                                <th>Producto</th>
-                                <th>Cantidad</th>
-                                <th colspan="1" style="text-align: center">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr style="background-color: transparent">
-                                <td></td>
-                                <td><input type="text" class="form-control" ng-model="Productos.nombre"></td>
-                                <td><input type="number" class="form-control" ng-model="Productos.valorUnitario"></td>
-                                <td><input type="number" class="form-control" ng-model="Productos.valorUnitario"></td>
-                                <td style="text-align: center">
-                                    <button class="btn btn-success" title="Limpiar" id="limpiar" ng-click="limpiar();"><i class="fa fa-save"></i></button>
-                                </td>
-                        </tbody>
-                    </table>
-                            </div>
-
+                    <div class="row">
+                        <div class="col-lg-12" style="text-align: right;">
+                            <button class="btn btn-danger" ng-click="guardar()" id="guardar">Registrar Movimiento</button>
                         </div>
                     </div>
                 </div>
-
+            </div>
+            </div>
             </div>
         </div>
-
-
     </div>
-</div>
+
+
+

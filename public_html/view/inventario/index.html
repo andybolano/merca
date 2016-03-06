@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" ng-controller="inventarioController">
     <div class="col-lg-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
@@ -33,12 +33,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr style="background-color: transparent">
+                            <tr style="background-color: transparent" ng-repeat="item in listamovimiento">
                                 <td></td>
-                                <td>Traslado</td>
-                                <td>02/29/2016</td>
-                                <td>Bodega</td>
-                                <td style="text-align: center"><a href="javasrcritp:;" title="detalle movimiento" ng-click=""><i class="fa fa-eye" style="font-size:20px;color:#1A7BB9;"></i></a></td>
+                                <td>{{item.tipo_movimiento}}</td>
+                                <td>{{item.fecha_movimiento}}</td>
+                                <td>{{item.lugar}}</td>
+                                <td style="text-align: center"><a href="javasrcritp:;" title="detalle movimiento" ng-click=""><i class="fa fa-file-text" style="font-size:20px;color:#1A7BB9;"></i></a></td>
                                 <td style="text-align: center">
                                     <a href="javasrcritp:;" title="Editar movimiento" ng-click="cargarModificar(item)"><i class="fa fa-edit" style="font-size:20px;color:#1A7BB9;" ></i></a>
                                     <a href="javasrcritp:;" title="Anular movimiento" ng-click="eliminar(item.id)"><i class="fa fa-trash" style="font-size:20px;color:#ED5565;"></i></a>
