@@ -19,6 +19,12 @@ var app;
                     .when("/proveedores",{
                         templateUrl: 'proveedor/index.html'
                     })
+                    .when("/inventario",{
+                        templateUrl: 'inventario/index.html'
+                    })
+                    .when("/movimiento",{
+                        templateUrl: 'inventario/movimiento.html'
+                    })
                     .otherwise({
                         redirectTo:"/home"
                     });

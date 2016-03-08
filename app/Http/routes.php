@@ -33,3 +33,6 @@ Route::group(['middleware' => ['web']], function () {
 
 include('routes/routesProductos.php');
 include('routes/routesProveedores.php');
+include('routes/routesmovimientos.php');
+include('routes/routesmovimientosE.php');
+include('routes/routesmovimientosT.php');
