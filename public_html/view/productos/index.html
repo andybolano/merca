@@ -34,10 +34,7 @@
                             <td><input type="text" class="form-control" ng-model="Productos.nombre"></td>
                             <td>
                                 <select class="form-control m-b" name="account" ng-model="Productos.proveedor">
-                                <option value="1">proveedor 1</option>
-                                <option value="2">proveedor 2</option>
-                                <option value="3">proveedor 3</option>
-                                <option value="4">proveedor 4</option>
+                                    <option value="{{item.id}}" ng-repeat="item in proveedores">{{item.nombre}}</option>
                             </select>
                             </td>
                             <td><input type="number" class="form-control" ng-model="Productos.valorUnitario"></td>
@@ -57,9 +54,9 @@
                           <tr ng-repeat="item in listaProductos | filter: filtro | orderBy:'-id'">
                             <td>{{item.id}}</td>
                             <td>{{item.nombre}}</td>
-                            <td>{{item.proveedor}}</td>
-                            <td>{{item.valorUnitario}}</td>
-                            <td>{{item.precioVenta}}</td>
+                            <td>{{item.nombreProveedor}}</td>
+                            <td>{{item.valorUnitario | currency}}</td>
+                            <td>{{item.precioVenta | currency}}</td>
                             <td style="text-align: center"><a href="javasrcritp:;"  title="Ver descripcion" data-toggle="modal" data-target="#modalDescripcion" ng-click="showDescripcion(item.descripcion)"><i class="fa fa-eye" style="font-size:20px;color:#1A7BB9;"></i></a></td>
                             <td></td>
                             <td style="text-align: center"><a href="javasrcritp:;" title="Editar Producto" ng-click="cargarModificar(item)"><i class="fa fa-edit" style="font-size:20px;color:#1A7BB9;" ></i></a></td>

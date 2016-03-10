@@ -18,14 +18,15 @@
                     
                     <div class="input-group"><input type="text" placeholder="Buscador" class="input-sm form-control"  ng-model="filtro"> <span class="input-group-btn">
                                 <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-search"></i></button> </span></div>
-                     <div class="table-responsive" style="height:350px;">
+                     <div class="table-responsive" style="height:250px;">
                     <table class="table table-striped">
                         <tr ng-repeat ="item in listaProductos | filter: filtro">
                             <td>{{item.id}}</td>
                             <td>{{item.nombre}}</td>
-                            <td>{{item.precioVenta}}</td>
+                            <td>{{item.precioVenta | currency}}</td>
                             <td><a href="javascript:;" ng-click="addCart(item)"><i class="fa fa-plus-square" style="font-size:18px;"></i></a></td>
                         </tr>
+
                     </table>
                      </div>
                 </div>
@@ -47,20 +48,32 @@
                                <th>
                                    Subtotal
                                </th>
+                               <th>
+                                   Eliminar
+                               </th>
                                </thead>
                                <tbody>
                                    <tr ng-repeat="item in listaCarrito">
                                          <td>{{item.nombre}}</td>
-                                         <td>{{item.precioVenta}}</td>
-                                         <td style="text-align: center;"><input type="number" style="width: 45px;"></td>
-                                         <td></td>
+                                         <td>{{item.precio | currency}}</td>
+                                         <td style="text-align: center;"><input type="number" style="width: 45px;"  value="1"  ng-keyup="cambiarCantidad($index)" id="cantidad{{$index}}"></td>
+                                         <td>{{item.subtotal | currency}}</td>
+                                          <td style="text-align: center;"><a href="javascript:;" ng-click="sacarCarrito($index)"><i class="fa fa-minus-square" style="font-size:18px;color:red;"></i></a></td>
                                    </tr>
+                                    <tr>
+                                        <td colspan="3"><h4>TOTAL:</h4></td>
+                                        <td  style="text-align: left"><h4>{{total | currency}}</h4></td>
+                                       
+                                    </tr>
                                </tbody>
                            </table>
                        </div> 
+                </div>
+                </div>
+                   
                                    <div class="hr-line-dashed"></div>
                     <div class="row">
-                        <div class="col-lg-7">
+                        <div class="col-lg-4">
                       <div class="table-responsive">
                            <h4><i class="fa fa-file-text" style="font-size:18px;"></i>&nbsp;&nbsp;Informacion de factura</h4>
                            <table class="table">
@@ -68,17 +81,17 @@
                                    <tr>
                                        <td>Cliente:</td>
                                        <td>
-                                               <div class="input-group"><input type="text" placeholder="Cedula" class="input-sm form-control" > <span class="input-group-btn">
-                                <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-search"></i></button> </span></div>
+                                               <div class="input-group"><input type="number" placeholder="Cedula" id="cedula" class="input-sm form-control" > <span class="input-group-btn">
+                                <a href="javascript:;" class="btn btn-sm btn-primary" ng-click="consultarCliente();"><i class="fa fa-search"></i></a> </span></div>
                                        </td>
                                    </tr>
                                    <tr>
                                        <td width="50%">Fecha de Compra:</td>
-                                       <td><input type="date" class="form-control"></td>
+                                       <td><input type="date" id="fechaCompra" class="form-control"></td>
                                    </tr>
                                    <tr>
                                        <td>Forma de Pago:</td>
-                                       <td><select class="form-control m-b" name="account">
+                                       <td><select class="form-control m-b" id="formaPago" name="account">
                                                <option value="CONTADO">
                                                    CONTADO
                                                </option >
@@ -95,24 +108,71 @@
                        </div> 
                         </div>
                         <div class="col-lg-5">
+                             <div class="table-responsive">
+                           <h4><i class="fa fa-money" style="font-size:18px;"></i>&nbsp;&nbsp;Informacion de pago</h4>
+                           <table class="table">
+                               <tr>
+                                    <td>Tiempo de pago:</td>
+                                    <td>
+                                        <select class="form-control" id="mesCuotas" ng-model="cuotas.mes" ng-change="calcularPago();">
+                                            <option value="1">15 Dias</option>
+                                            <option value="1">1 Mes</option> 
+                                            <option value="3">3 Meses</option>
+                                            <option value="6">6 Meses</option>
+                                            <option value="12">12 Meses</option>
+                                            <option value="15">15 Meses</option>
+                                            <option value="18">18 Meses</option>
+                                        </select>
+                                    </td>
+                                   </tr>
+                                   <tr>
+                                   <td>Descuento</td>
+                                       <td>{{cuotas.descuento}} &#37; </td>
+                                   </tr>
+                               <tr>
+                                    <td>Abono:</td>
+                                       <td><input type="number" ng-model="cuotas.abono" class="form-control" ng-keyup="calcularPago()" ></td>
+                                   </tr>
+                                   <tr>
+                                   <td>Total a pagar:</td>
+                                   <td><small>{{grantotal | currency}} - {{cuotas.descuentoValor | currency}} = </small><span class="label label-warning-light pull-right" style="font-size: 12px;"> {{grantotal-cuotas.descuentoValor | currency}}</span> </td>
+                                   </tr>
+                                   <tr>
+                                    <td>Numero de Cuotas:</td>
+                                       <td>{{cuotas.numero}}</td>
+                                   </tr>
+                                   <tr>
+                                    <td>Valor de Cuotas:</td>
+                                    <td><span class="label label-danger-light pull-right" style="font-size: 12px;"> {{cuotas.valor | currency}}</span></td>
+                                   </tr>
+                                    
+                                   
+                           </table>
+                             </div>
+                        </div>
+                        <div class="col-lg-3">
                             <h4><i class="fa fa-users" style="font-size:18px;"></i>&nbsp;&nbsp;Informacion del cliente</h4>
                              <table class="table">
                                <tbody>
                                    <tr>
                                        <td>Cedula:</td>
-                                       <td></td>
+                                       <td>{{cliente.cedula}}</td>
                                    </tr>
                                    <tr>
                                        <td>Nombres:</td>
-                                       <td></td>
+                                       <td>{{cliente.nombre}} {{cliente.apellidos}}</td>
                                    </tr>
                                    <tr>
                                        <td>Telefono:</td>
-                                       <td></td>
+                                       <td>{{cliente.telefono}}</td>
+                                   </tr>
+                                   <tr>
+                                       <td>Ciudad:</td>
+                                       <td>{{cliente.ciudad}}</td>
                                    </tr>
                                    <tr>
                                        <td>Direccion</td>
-                                       <td></td>
+                                       <td>{{cliente.direccion}} {{cliente.barrio}}</td>
                                    </tr>
                                </tbody>
                            </table>
@@ -120,15 +180,73 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12" style="text-align: right;">
-                            <button class="btn btn-danger">Registrar Venta</button>
+                            <button class="btn btn-danger" ng-click="registrarVenta();">Registrar Venta</button>
                         </div>
                     </div>
                 </div>
             </div>
             </div>
+    
+   <div id="registroCliente" class="modal inmodal in fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <i class="fa fa-user modal-icon"></i>
+        <h4 class="modal-title">Registro de Cliente</h4>
+      </div>
+        <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="input-group">
+                    <label>Nº de Cedula:</label>
+                    <input type="number" id="cedula" ng-model="cliente.cedula" class="input-sm form-control" >
+                </div>
+                <div class="input-group">
+                    <label>Nombres :</label>
+                    <input type="text" ng-model="cliente.nombres" class="input-sm form-control" >
+                </div>
+                <div class="input-group">
+                    <label>Apellidos:</label>
+                    <input type="text" ng-model="cliente.apellidos" class="input-sm form-control" >
+                </div>
+                 <div class="input-group">
+                    <label>Telefono:</label>
+                    <input type="number"  ng-model="cliente.telefono" class="input-sm form-control" >
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="input-group">
+                    <label>Direccion:</label>
+                    <input type="text" ng-model="cliente.direccion" class="input-sm form-control" >
+                </div>
+                <div class="input-group">
+                    <label>Barrio :</label>
+                    <input type="text" ng-model="cliente.barrio" class="input-sm form-control" >
+                </div>
+                <div class="input-group">
+                    <label>Ciudad:</label>
+                    <input type="text"  ng-model="cliente.ciudad" class="input-sm form-control" >
+                </div>
+               
             </div>
         </div>
+        </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" ng-click="registrarCliente();">Registrar</button>
+      </div>
     </div>
+
+  </div>
+</div>
+    
+    
+            </div>
+        
+    
 
 
 

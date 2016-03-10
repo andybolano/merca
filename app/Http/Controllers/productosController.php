@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 
 use App\Producto;
-
+use DB;
 class ProductosController extends Controller
 {
     
@@ -30,7 +30,12 @@ class ProductosController extends Controller
     public function index()
     {
         try {
-            return Producto::all();   
+           $result = DB::select(DB::raw(
+                        "Select p.*, pr.nombre as nombreProveedor  from productos as p
+                         INNER JOIN proveedores as pr ON pr.id = p.proveedor "
+                    ));
+         
+         return $result; 
         } catch (Exception $exc) {
             echo $exc->getTraceAsString();
         }

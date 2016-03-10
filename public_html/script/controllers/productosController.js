@@ -1,7 +1,18 @@
 app.controller('productosController',['$scope','$http', function ($scope,$http){
         $scope.Productos = {};
         $scope.listaProductos = {};
+        $scope.proveedores ={};
         refrescar();
+        cargarProveedores();
+        function cargarProveedores(){
+       
+            
+            $http.get(uri+'/api/proveedores').success(function (respuesta){
+                
+                    $scope.proveedores= respuesta;
+                    console.log(respuesta);
+            });
+        }
         function refrescar(){
             document.getElementById("guardar").disabled = false;
             document.getElementById("actualizar").disabled = true;
