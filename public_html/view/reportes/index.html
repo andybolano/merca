@@ -1,0 +1,104 @@
+<div class="row" ng-controller="reporteController">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <h2>Gestion reportes inventario</h2>
+                    </div>
+
+                </div>
+                <div class="hr-line-dashed"></div>
+            </div>
+
+            <div class="ibox-content">
+                <div class="row">
+
+                    <div class="form-group col-lg-3">
+                        <label>Fecha de inicial</label>
+                        <div class="input-group date">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span><input type="date" class="form-control" ng-model="movimiento.fechaI">
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label>Fecha final</label>
+                        <div class="input-group date">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span><input type="date" class="form-control" ng-model="movimiento.fechaF">
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4" style="float: left;">
+                        <div class="input-group">
+                            <label>Fecha final</label>
+                            <select  class="form-control">
+                                <option>Entrada Traslados almacen</option>
+                                <option>Traslados camioneta</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-2" style="float: left;padding-top: 22px">
+                        <button class="btn btn-success" title="Cargar datos" id="actualizar" ng-click="Loadreport();"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Movimiento</th>
+                                <th>Fecha</th>
+                                <th>Lugar</th>
+                                <th>Cantidad</th>
+                                <th>Articulo</th>
+                                <th style="text-align: center">detalle</th>
+                                <th colspan="3" style="text-align: center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: transparent" ng-repeat="item in listaProductos">
+                                <td></td>
+                                <td>{{item.tipo_movimiento}}</td>
+                                <td>{{item.fecha_movimiento}}</td>
+                                <td>{{item.lugar}}</td>
+                                <td>{{item.cantidad}}</td>
+                                <td>{{item.nombre}}</td>
+                                <td style="text-align: center"><a href="javasrcritp:;" title="detalle movimiento" ng-click=""><i class="fa fa-print" style="font-size:20px;color:#1A7BB9;"></i></a></td>
+                                <td style="text-align: center">
+                                    <a href="javasrcritp:;" title="Editar movimiento" ng-click="cargarModificar(item)"><i class="fa fa-edit" style="font-size:20px;color:#1A7BB9;" ></i></a>
+                                    <a href="javasrcritp:;" title="Anular movimiento" ng-click="remover(item.id_movimiento)"><i class="fa fa-trash" style="font-size:20px;color:#ED5565;"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div id="modalDescripcion" class="modal inmodal in fade" role="dialog">
+        <div class="modal-dialog modal-sm" style="margin-right:80px;margin-top:100px">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Ingresar Descripcion</h4>
+                </div>
+                <div class="modal-body">
+                    <textarea ng-model="Productos.descripcion" id="descripcion" rows="4" cols="30" autofocus>
+              
+                    </textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

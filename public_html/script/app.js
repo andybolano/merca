@@ -22,11 +22,14 @@ var app;
                     .when("/inventario",{
                         templateUrl: 'inventario/index.html'
                     })
-                    .when("/movimiento",{
+                   .when("/movimiento",{
                         templateUrl: 'inventario/movimiento.html'
                     })
                     .when("/recaudo",{
                         templateUrl: 'recaudo/index.html'
+                    })
+                    .when("/Rinventario",{
+                        templateUrl: 'reportes/index.html'
                     })
                     .otherwise({
                         redirectTo:"/home"

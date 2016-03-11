@@ -37,5 +37,6 @@ include('routes/routesProveedores.php');
 include('routes/routesmovimientos.php');
 include('routes/routesmovimientosE.php');
 include('routes/routesmovimientosT.php');
+include('routes/routesreporfecha.php');
 include('routes/routesClientes.php');
 include('routes/routesVentas.php');
