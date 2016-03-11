@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use App\venta;
 use App\ventaProducto;
 use DB;
-
+use App\movimiento;
 class VentasController extends Controller
 {
     
@@ -37,14 +37,33 @@ class VentasController extends Controller
     public function index()
     {
         try {
-            return venta::all();   
+             $result = DB::select(DB::raw(
+                        "Select *, v.id as idventa  from ventas as v INNER JOIN clientes as c ON v.cliente = c.id "
+                        
+                    ));
+         
+         return $result;  
         } catch (Exception $exc) {
             echo $exc->getTraceAsString();
         }
     }
     
+    public function getProductosVenta($idVenta){
+       try {
+             $result = DB::select(DB::raw(
+                        "Select *  from ventasproducto vp INNER JOIN productos as p ON vp.idProducto = p.id 
+                         WHERE vp.idVenta = $idVenta"
+                        
+                    ));
+         
+         return $result;  
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+        } 
+    }
 
-    
+
+        
     /**
      * Store a newly created resource in storage.
      *
@@ -82,6 +101,16 @@ class VentasController extends Controller
             $producto->save();
               
         }
+        
+        
+        $movimiento = new movimiento();
+        $movimiento->id_movimiento=$venta->id;
+            $movimiento->fecha_movimiento= $data["fecha"];
+          $movimiento->tipo_movimiento= 'VENTA';
+            $movimiento->lugar = 'VENTA';
+            $movimiento->estado= "C";
+            $movimiento->save();
+        
          
             
      

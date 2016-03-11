@@ -25,6 +25,9 @@ var app;
                     .when("/movimiento",{
                         templateUrl: 'inventario/movimiento.html'
                     })
+                    .when("/recaudo",{
+                        templateUrl: 'recaudo/index.html'
+                    })
                     .otherwise({
                         redirectTo:"/home"
                     });

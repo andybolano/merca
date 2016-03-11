@@ -1,0 +1,277 @@
+<div class="row" ng-controller="recaudosController" data-ng-init="getVentas()" >
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <h2>Gestion de Recaudos</h2>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="input-group"><input type="text" placeholder="Buscador" class="input-sm form-control"  ng-model="filtro"> <span class="input-group-btn">
+                                <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-search"></i></button> </span></div>
+                    </div>
+                </div>
+                <div class="hr-line-dashed"></div>
+            </div>
+
+            <div class="ibox-content">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Cedula</th>
+                                <th>Cliente</th>
+                                <th>Fecha</th>
+                                <th>Forma de Pago</th>
+                                <th>Valor inicial</th>
+                                <th>Abono</th>
+                                <th>Subtotal</th>
+                                <th>Descuento</th>
+                                <th>Total</th>
+                                <th>Nº Cuotas</th>
+                                <th>Valor Cuotas</th>
+                                <th>Saldo</th>
+                                <th colspan="3" style="text-align: center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in Ventas| filter: filtro | orderBy:'-id'">
+                                <td>{{item.cedula}}</td>
+                                <td>{{item.nombre}} {{item.apellidos}}</td>
+                                <td>{{item.fecha}}</td>
+                                <td>{{item.formaPago}}</td>
+                                <td><span class="label label-warning-light pull-right" style="font-size: 12px;">{{item.abono + item.subtotal| currency}}</span></td>
+                                <td>{{item.abono| currency}}</td>
+                                <td>{{item.subtotal| currency}}</td>
+                                <td>{{item.descuento}} % = {{item.descuentoValor| currency}}</td>
+                                <td><span class="label label-success pull-right" style="font-size: 12px;">{{item.total| currency }}</span></td>
+                                <td>{{item.numeroCuotas}}</td>
+                                <td>{{item.valorCuotas| currency }}</td>
+                                <td><span class="label label-danger pull-right" style="font-size: 12px;">{{item.saldo| currency}}</span></td>
+                                <td style="text-align: center">
+                                    <a href="javasrcritp:;"  title="Ver Venta" data-toggle="modal"  ng-click="showVenta(item)"><i class="fa fa-eye" style="font-size:20px;color:#1A7BB9;"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="detalleVenta" class="modal inmodal in fade" role="dialog">
+        <div class="modal-dialog modal-lg" style="width:100%;">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Detalle de Venta</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs">
+                            <li id="t1" class="active"><a data-toggle="tab" href="javascript:;" aria-expanded="true" onclick="tab(1)">Detalle de Venta</a></li>
+                            <li id="t2" class=""><a data-toggle="tab" href="javascript:;" aria-expanded="false" onclick="tab(2)">Registro de Pagos</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h4><i class="fa fa-users" style="font-size:18px;"></i>&nbsp;&nbsp;Informacion del cliente</h4>
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Cedula:</td>
+                                                        <td>{{detalleVenta.cedula}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nombres:</td>
+                                                        <td>{{detalleVenta.nombre}} {{detalleVenta.apellidos}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Telefono:</td>
+                                                        <td>{{detalleVenta.telefono}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Ciudad:</td>
+                                                        <td>{{detalleVenta.ciudad}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Direccion</td>
+                                                        <td>{{detalleVenta.direccion}} {{detalleVenta.barrio}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <div class="table-responsive">
+                                                <h4><i class="fa fa-shopping-cart" style="font-size:18px;"></i>&nbsp;&nbsp;Detalle de Compra</h4>
+
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <td>Nombre</td>
+                                                                <td>cantidad</td>
+                                                                <td>Precio</td>
+                                                                <td>Total</td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="item in Productos| filter: filtro | orderBy:'-id'">
+                                                                <td>{{item.nombre}}</td>
+                                                                <td>{{item.cantidad}}</td>
+                                                                <td>{{item.precio| currency}}</td>
+                                                                <td>{{item.total| currency}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <div class="table-responsive">
+                                                <h4><i class="fa fa-money" style="font-size:18px;"></i>&nbsp;&nbsp;Informacion de pago</h4>
+                                                <table class="table">
+                                                    <tr>
+                                                        <td>Forma de pago:</td>
+                                                        <td>
+                                                            {{detalleVenta.formaPago}} 
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Fecha de Compra:</td>
+                                                        <td>
+                                                            {{detalleVenta.fecha}} 
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Tiempo de pago:</td>
+                                                        <td>
+                                                            {{detalleVenta.tiempoPago}} Mes(es)
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Descuento</td>
+                                                        <td>{{detalleVenta.descuento}} &#37; </td>
+                                                    </tr>
+                                                    <tr>
+                                                    <tr>
+                                                        <td>Total de Compra:</td>
+                                                        <td>{{detalleVenta.abono + detalleVenta.subtotal| currency}} </td>
+                                                    </tr>
+                                                    <td>Abono:</td>
+                                                    <td>{{detalleVenta.abono| currency}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Total a pagar:</td>
+                                                        <td><small>{{detalleVenta.subtotal| currency}} - {{detalleVenta.descuentoValor| currency}} = </small><span class="label label-warning-light pull-right" style="font-size: 12px;"> {{detalleVenta.total| currency}}</span> </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Numero de Cuotas:</td>
+                                                        <td>{{detalleVenta.numeroCuotas}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Valor de Cuotas:</td>
+                                                        <td><span class="label label-danger-light pull-right" style="font-size: 12px;"> {{detalleVenta.valorCuotas| currency}}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Saldo de deuda:</td>
+                                                        <td><span class="label label-danger pull-right" style="font-size: 24px;"> {{detalleVenta.saldo| currency}}</span></td>
+                                                    </tr>
+
+
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="tab-2" class="tab-pane">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="table-responsive">
+                                                <h4><i class="fa fa-money" style="font-size:18px;"></i>&nbsp;&nbsp;Ingreso de pago</h4>
+                                                <table class="table">
+                                                    <tr>
+                                                        <td>Saldo de deuda:</td>
+                                                        <td><span class="label label-danger pull-right" style="font-size: 16px;"> {{detalleVenta.saldo| currency}}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Valor del Pago:</td>
+                                                        <td><input type="number" class="form-control" ng-model="Pago.valor"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Fecha de Pago:</td>
+                                                        <td><input type="date" id="fechaPago" class="form-control"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td style="text-align: right; font-weight:900"><button class="btn btn-success" ng-click="registroPago(detalleVenta.saldo);">REGISTRAR PAGO</button></td>
+                                                    </tr>
+
+                                                </table>
+                                                </div>
+                                            </div>
+                                        <div class="col-lg-8">
+                                            <div class="table-responsive">
+                                                <h4><i class="fa fa-line-chart" style="font-size:18px;"></i>&nbsp;&nbsp;Historial de pago</h4>
+                                            </div>
+                                                    <table class="table table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <td>Nº</td>
+                                                                <td>Fecha de Pago</td>
+                                                                <td>Valor</td>
+                                                                <td>Saldo</td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="item in listaPagos">
+                                                                <td>{{$index +1}}</td>
+                                                                <td>{{item.fecha}}</td>
+                                                                <td>{{item.valor | currency}}</td>
+                                                                <td>{{item.saldo | currency}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+               
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    function tab(id) {
+        if (id == 1) {
+            $("#t1").addClass("active");
+            $("#t2").removeClass("active");
+            document.getElementById("tab-1").style.display = "block";
+            document.getElementById("tab-2").style.display = "none";
+        } else {
+            $("#t2").addClass("active");
+            $("#t1").removeClass("active");
+            document.getElementById("tab-1").style.display = "none";
+            document.getElementById("tab-2").style.display = "block";
+        }
+    }
+</script>
+<!----294.000---->
