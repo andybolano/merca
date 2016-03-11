@@ -38,7 +38,7 @@ app.controller('inventarioController',['$scope','$http', function ($scope,$http)
         
         $scope.movimiento ={};
         $scope.detalle={};
-        $scope.movimiento.id_movimiento=""
+        $scope.movimiento.id_movimiento="";
         
         $scope.listaCarrito.movimiento;
         refrescar();
