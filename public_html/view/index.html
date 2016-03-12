@@ -57,6 +57,9 @@
                 <li class="item">
                     <a href="#/Rinventario"><i class="fa fa-calendar-o"></i> <span class="nav-label">Reportes</span></a>
                 </li>
+                <li class="item">
+                    <a href="#/seguridad"><i class="fa fa-key"></i> <span class="nav-label">Seguridad</span></a>
+                </li>
             </ul>
 
         </div>
@@ -136,6 +139,7 @@
     <script src="../script/controllers/clientesController.js" type="text/javascript"></script>
     <script src="../script/controllers/reporteController.js" type="text/javascript"></script>
     <script src="../script/controllers/ventasController.js" type="text/javascript"></script>
+    <script src="../script/controllers/usuariosController.js" type="text/javascript"></script>
      <script src="../script/controllers/recaudosController.js" type="text/javascript"></script>
     <script>
           $(document).ready(function() {   
@@ -149,7 +153,8 @@
                         $('li.item').removeClass("active");
                         $(this).addClass("active");
                    });
-
+                var sesion = localStorage.getItem("bandera");  
+                if (sesion==null) {window.location="../"}
 
         });
         
@@ -171,6 +176,7 @@
   "hideMethod": "fadeOut"
 }
     </script>
+    
 </body>
 
 <!-- Mirrored from webapplayers.com/inspinia_admin-v2.3/dashboard_5.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 01 Sep 2015 13:12:30 GMT -->

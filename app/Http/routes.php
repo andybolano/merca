@@ -40,3 +40,4 @@ include('routes/routesmovimientosT.php');
 include('routes/routesreporfecha.php');
 include('routes/routesClientes.php');
 include('routes/routesVentas.php');
+include('routes/routesUsuarios.php');

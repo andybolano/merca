@@ -34,6 +34,9 @@ var app;
                     .when("/clientes",{
                         templateUrl: 'cliente/index.html'
                     })
+                    .when("/seguridad",{
+                        templateUrl: 'seguridad/index.html'
+                    })
                     .otherwise({
                         redirectTo:"/home"
                     });
