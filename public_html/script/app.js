@@ -31,6 +31,9 @@ var app;
                     .when("/Rinventario",{
                         templateUrl: 'reportes/index.html'
                     })
+                    .when("/clientes",{
+                        templateUrl: 'cliente/index.html'
+                    })
                     .otherwise({
                         redirectTo:"/home"
                     });

@@ -92,10 +92,11 @@ class ClientesController extends Controller
             $cliente = Clientes::find($id);
 
             $cliente->nombre = $data["nombre"];
-            $cliente->proveedor= $data["proveedor"];
-            $cliente->valorUnitario= $data["valorUnitario"];
-            $cliente->precioVenta= $data["precioVenta"];
-            $cliente->descripcion= $data["descripcion"];
+            $cliente->apellidos= $data["apellidos"];
+            $cliente->barrio= $data["barrio"];
+            $cliente->direccion= $data["direccion"];
+            $cliente->ciudad= $data["ciudad"];
+            $cliente->telefono= $data["telefono"];
         
             
             $cliente->save();
