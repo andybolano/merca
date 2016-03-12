@@ -107,7 +107,7 @@ class VentasController extends Controller
         $movimiento->id_movimiento=$venta->id;
             $movimiento->fecha_movimiento= $data["fecha"];
           $movimiento->tipo_movimiento= 'VENTA';
-            $movimiento->lugar = 'VENTA';
+            $movimiento->lugar = 'ALMACEN (PRINCIPAL)';
             $movimiento->estado= "C";
             $movimiento->save();
         
