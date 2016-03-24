@@ -8,19 +8,15 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 
 use DB;
-use App\movimiento;
-use App\productos;
-use App\movimientoe;
 
 class ReportinventarioController extends Controller
 {
     
 
     
-  public function show(Request $request){
+  public function show(){
    try
     {
-       $data = $request->all();
        $result = DB::select(DB::raw("select sum(cantidad) as cantidad, 
         fecha_movimiento,tipo_movimiento,producto,nombre,lugar from movimiento
         inner join  movimientoe on id_movimiento = movimiento 
@@ -32,39 +28,16 @@ class ReportinventarioController extends Controller
     }
 
   }
-    
- 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  Request  $request
-     * @return Response
-     */
-    public function store(Request $request)
+  
+  public function getExistencia(){
+   try
     {
-        
+       $consulta = DB::select(DB::raw("SELECT * FROM mercamar.bodega_existencia"));
+        return $consulta;
+    } 
+    catch (Exception $exc) {
+        echo $exc->getTraceAsString();
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return Response
-     */
-    public function update(Request $request, $id)
-    {
-        
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        
-    }
+  }
 }

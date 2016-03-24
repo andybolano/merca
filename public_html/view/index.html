@@ -76,7 +76,7 @@
                     <span class="m-r-sm text-muted welcome-message">Bienevido a Aplicacion Credimar</span>
                 </li>
                 <li>
-                    <a href="login.html">
+                    <a id="cerrar">
                         <i class="fa fa-sign-out"></i> Cerrar Sesion
                     </a>
                 </li>
@@ -155,6 +155,7 @@
                    });
                 var sesion = localStorage.getItem("bandera");  
                 if (sesion==null) {window.location="../"}
+                $('#cerrar').click(function(){window.location="../";localStorage.removeItem("bandera")});
 
         });
         

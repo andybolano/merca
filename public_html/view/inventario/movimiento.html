@@ -23,7 +23,14 @@
                         <tr ng-repeat ="item in listaProductos | filter: filtro">
                             <td>{{item.id}}</td>
                             <td>{{item.nombre}}</td>
-                            <td><a href="javascript:;" ng-click="addCart(item)"><i class="fa fa-plus-square" style="font-size:18px;"></i></a></td>
+                            <td>{{item.EXISTENTE}}</td>
+                            
+                            <td>
+                               <span ng-switch="{{item.EXISTENTE}}">
+                                   <span ng-switch-default=""><a href="javascript:;" ng-click="addCart(item)"><i class="fa fa-plus-square" style="font-size:18px;"></i></a></span>
+                                  <span ng-switch-when="0"></span>
+                               </span>
+                            </td>
                         </tr>
                     </table>
                      </div>
@@ -97,6 +104,9 @@
                                                <option></option>
                                                <option value="BODEGA (PRINCIPAL)">
                                                    PRINCIPAL
+                                               </option >
+                                               <option value="ALMACEN">
+                                                   ALMACEN
                                                </option >
                                            </select></td>
                                                

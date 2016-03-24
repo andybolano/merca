@@ -16,6 +16,7 @@ app.controller('inventarioController',['$scope','$http', function ($scope,$http)
         var mm = hoy.getMonth()+1; //hoy es 0!
         var yyyy = hoy.getFullYear();
         var dato="";
+        var TOTAL_BODEGA=0;
         
         if(dd<10) {
             dd='0'+dd;
@@ -58,8 +59,33 @@ app.controller('inventarioController',['$scope','$http', function ($scope,$http)
 
 
         $scope.productos = function (){
-            $http.get(uri+'/api/productos').success(function (respuesta){
+            var DESCUENTOS=0;
+            $http.get(uri+'/api/Reportinventario/existencia/get').success(function (respuesta){
                     $scope.listaProductos = respuesta;
+                    angular.forEach($scope.listaProductos,function (item,i){
+                    console.log('existencia'+item.EXISTENTE);
+                    
+                    if (item.EXISTENTE==null) {item.EXISTENTE=0;}
+                    if (item.ENTRADA_C==null) {item.ENTRADA_C=0;}
+                    if (item.TOTAL_T==null) {item.TOTAL_T=0;}
+                    if (item.TOTAL_DV==null) {item.TOTAL_DV=0;}
+                    if (item.TOTAL_TA==null) {item.TOTAL_TA=0;}
+                    if (item. TOTAL_VB==null) {item. TOTAL_VB=0;}
+                    
+                    
+                    
+                    DESCUENTOS = parseInt(item.TOTAL_T) + parseInt(item.TOTAL_TA) + parseInt(item. TOTAL_VB);
+                    
+                    console.log('descuentos'+DESCUENTOS+''+item.nombre)
+                    
+                    TOTAL_BODEGA =parseInt(item.EXISTENTE) + parseInt(item.ENTRADA_C) + parseInt(item.TOTAL_DV) - parseInt(DESCUENTOS);
+                    
+                    
+                    console.log('TOTAL BODEGA'+TOTAL_BODEGA+''+item.nombre);
+                    item.EXISTENTE = TOTAL_BODEGA;
+                    
+                    });
+                    console.log($scope.listaProductos);
             });
         };
        
@@ -100,22 +126,30 @@ app.controller('inventarioController',['$scope','$http', function ($scope,$http)
                     break;
                     case"ENTRADA (DEVOLUCION)":
                      dato="E";
+                     $scope.movimiento.proveedor=0;
+                     $("#bodega").attr('disabled',false);
                      $("#traslado").attr('disabled',true);
                      $("#proveedor").attr('disabled',true);
                     break;
                     case"ENTRADA (CAMIONETA)":
                       dato="E";
+                      $scope.movimiento.proveedor=0;
                      $("#traslado").attr('disabled',true);
                      $("#proveedor").attr('disabled',true);
+                     $("#bodega").attr('disabled',false);
+                     
                     break;
                     case"TRASLADO  (ALMACEN)":
                         dato="T";
+                        $scope.movimiento.proveedor=0;
                         $("#traslado").attr('disabled',false);
-                     $("#bodega").attr('disabled',true);
-                     $("#proveedor").attr('disabled',true);
+                        $("#bodega").attr('disabled',true);
+                        $("#proveedor").attr('disabled',true);
                     break;
                     case"TRASLADO  (CAMIONETA)":
                         dato="T";
+                        $scope.movimiento.proveedor=0;
+                        $("#traslado").attr('disabled',false);
                      $("#bodega").attr('disabled',true);
                      $("#proveedor").attr('disabled',true);
                     break;
@@ -126,7 +160,7 @@ app.controller('inventarioController',['$scope','$http', function ($scope,$http)
             var hoy = new Date();
             var cad=hoy.getHours()+""+hoy.getMinutes()+""+hoy.getSeconds(); 
             $scope.movimiento.id_movimiento=dd+""+mm+""+yyyy+""+cad;
-            $("#guardar").attr("disabled",true);
+            //$("#guardar").attr("disabled",true);
             console.log($scope.listaCarrito)
             if (productos.length==0)
             {
@@ -152,6 +186,7 @@ app.controller('inventarioController',['$scope','$http', function ($scope,$http)
                           $scope.movimiento="";
                           $scope.listaCarrito="";
                           productos=[];
+                          $scope.productos(); 
                           refrescar();
                         }
                     });         

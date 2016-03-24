@@ -47,6 +47,7 @@ class movimientosController extends Controller
             $movimiento->fecha_movimiento=$data["fecha_movimiento"];
             $movimiento->lugar=$data["lugar"];
             $movimiento->tipo_movimiento= $data["tipo_movimiento"];
+            $movimiento->proveedor=$data["proveedor"];
             $movimiento->estado= "C";
             $movimiento->save();
            

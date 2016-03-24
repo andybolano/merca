@@ -1,6 +1,7 @@
 app.controller('ventasController',['$scope','$http', function ($scope,$http){
         
         $scope.listaProductos = {};
+        var TOTAL_BODEGA=0;
         $scope.listaCarrito= [];
         $scope.cantidad = 1;
         $scope.total=0;
@@ -24,8 +25,33 @@ app.controller('ventasController',['$scope','$http', function ($scope,$http){
         
          
         $scope.productos = function (){
-            $http.get(uri+'/api/productos').success(function (respuesta){
+            var DESCUENTOS=0;
+            $http.get(uri+'/api/Reportinventario/existencia/get').success(function (respuesta){
                     $scope.listaProductos = respuesta;
+                    angular.forEach($scope.listaProductos,function (item,i){
+                    console.log('existencia'+item.EXISTENTE);
+                    
+                    if (item.EXISTENTE==null) {item.EXISTENTE=0;}
+                    if (item.ENTRADA_C==null) {item.ENTRADA_C=0;}
+                    if (item.TOTAL_T==null) {item.TOTAL_T=0;}
+                    if (item.TOTAL_DV==null) {item.TOTAL_DV=0;}
+                    if (item.TOTAL_TA==null) {item.TOTAL_TA=0;}
+                    if (item. TOTAL_VB==null) {item. TOTAL_VB=0;}
+                    
+                    
+                    
+                    DESCUENTOS = parseInt(item.TOTAL_T) + parseInt(item.TOTAL_TA) + parseInt(item. TOTAL_VB);
+                    
+                    console.log('descuentos'+DESCUENTOS+''+item.nombre)
+                    
+                    TOTAL_BODEGA =parseInt(item.EXISTENTE) + parseInt(item.ENTRADA_C) + parseInt(item.TOTAL_DV) - parseInt(DESCUENTOS);
+                    
+                    
+                    console.log('TOTAL BODEGA'+TOTAL_BODEGA+''+item.nombre);
+                    item.EXISTENTE = TOTAL_BODEGA;
+                    
+                    });
+                    console.log($scope.listaProductos);
             });
         };
         
