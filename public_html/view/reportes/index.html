@@ -33,10 +33,11 @@
                     
                     <div class="col-lg-4" style="float: left;">
                         <div class="input-group">
-                            <label>Fecha final</label>
-                            <select  class="form-control">
-                                <option>Entrada Traslados almacen</option>
-                                <option>Traslados camioneta</option>
+                            <label>Tipo de consulta</label>
+                            <select  class="form-control" ng-model="movimiento.consulta" ng-change="consulta()">
+                                <option value="2">Entrada salidas bodega</option>
+                                <option value="1">Entrada salidas almacen</option>
+                                <option value="3">Entradas salidas camioneta</option>
                             </select>
                         </div>
                     </div>
@@ -44,33 +45,88 @@
                         <button class="btn btn-success" title="Cargar datos" id="actualizar" ng-click="Loadreport();"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
-                <div class="table-responsive">
+                 <div class="table-responsive" ng-show="bodega">
                     <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>Movimiento</th>
-                                <th>Fecha</th>
-                                <th>Lugar</th>
-                                <th>Cantidad</th>
+                                
+                                <th>Existencia</th>
+                                <th>Ing. compra</th>
+                                <th style="text-align: center">Devoluciones</th>
+                                <th style="text-align: center">Ent. camioneta</th>
+                                <th style="text-align: center">Tras. camioneta</th>
+                                <th style="text-align: center">Tras. alamacen</th>
+                                <th style="text-align: center">Ventas bodega</th>
                                 <th>Articulo</th>
-                                <th style="text-align: center">detalle</th>
-                                <th colspan="3" style="text-align: center">Acciones</th>
+                                <th>Fecha</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
-                            <tr style="background-color: transparent" ng-repeat="item in listaProductos">
+                            <tr style="background-color: transparent" ng-repeat="item in listamovimiento">
                                 <td></td>
-                                <td>{{item.tipo_movimiento}}</td>
-                                <td>{{item.fecha_movimiento}}</td>
-                                <td>{{item.lugar}}</td>
-                                <td>{{item.cantidad}}</td>
+                                <td style="color: #d2322d">{{item.TOTAL_BODEGA}}</td>
+                                <td style="color: #090">{{item.EXISTENTE}}</td>
+                                <td style="text-align: center">{{item.TOTAL_DV}}</td>
+                                <td style="text-align: center">{{item.ENTRADA_C}}</td>
+                                <td style="text-align: center">{{item.TOTAL_T}}</td>
+                                <td style="text-align: center">{{item.TOTAL_TA}}</td>
+                                <td style="text-align: center">{{item.TOTAL_VB}}</td>
                                 <td>{{item.nombre}}</td>
-                                <td style="text-align: center"><a href="javasrcritp:;" title="detalle movimiento" ng-click=""><i class="fa fa-print" style="font-size:20px;color:#1A7BB9;"></i></a></td>
-                                <td style="text-align: center">
-                                    <a href="javasrcritp:;" title="Editar movimiento" ng-click="cargarModificar(item)"><i class="fa fa-edit" style="font-size:20px;color:#1A7BB9;" ></i></a>
-                                    <a href="javasrcritp:;" title="Anular movimiento" ng-click="remover(item.id_movimiento)"><i class="fa fa-trash" style="font-size:20px;color:#ED5565;"></i></a>
-                                </td>
+                                <td>{{item.fecha_movimiento}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                 <div class="table-responsive" ng-show="almacen">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th style="text-align: left">Existencia almacen</th>
+                                <th style="color:#090;text-align: center">Total trasladado</th>
+                                <th style="text-align: center">Total ventas </th>
+                                <th>Articulo</th>
+                                <th>Fecha</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: transparent" ng-repeat="item in listamovimiento">
+                                <td></td>
+                                <td style="text-align: left">{{item.EXISTENCIA_A}}</td>
+                                <td style="color:#090;text-align: center">{{item.TOTAL_TA}}</td>
+                                <td style="text-align: center">{{item.TOTAL_VA}}</td>
+                                <td>{{item.nombre}}</td>
+                                <td>{{item.fecha_movimiento}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                  <div class="table-responsive" ng-show="camioneta">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th style="text-align: left">Trasladado</th>
+                                <th style="text-align: left">Ventas camioneta</th>
+                                <th style="text-align: center">Existencia</th>
+                                <th>Articulo</th>
+                                <th>Fecha</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: transparent" ng-repeat="item in listamovimientocami">
+                                <td></td>
+                                <td style="text-align: left;color:#d2322d;">{{item.TOTAL_T}}</td>
+                                <td style="text-align: left">{{item.TOTAL_VCA}}</td>
+                                <td style="text-align: center; color:#090;">{{item.TOTAL_CAMIONETA}}</td>
+                                <td>{{item.NOMBRE}}</td>
+                                <td>{{item.fecha_movimiento}}</td>
                             </tr>
                         </tbody>
                     </table>

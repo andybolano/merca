@@ -40,4 +40,29 @@ class ReportinventarioController extends Controller
     }
 
   }
+  
+  public function getExistencialmacen(){
+   try
+    {
+       $consulta = DB::select(DB::raw("SELECT * FROM mercamar.almacen_bodega"));
+        return $consulta;
+    } 
+    catch (Exception $exc) {
+        echo $exc->getTraceAsString();
+    }
+
+  }
+  
+  public function getExistenciacamioneta(){
+   try
+    {
+       $consulta = DB::select(DB::raw("SELECT * FROM mercamar.bodega_camioneta"));
+        return $consulta;
+    } 
+    catch (Exception $exc) {
+        echo $exc->getTraceAsString();
+    }
+
+  }
+  
 }
