@@ -1,190 +1,391 @@
--- phpMyAdmin SQL Dump
--- version 4.3.11
--- http://www.phpmyadmin.net
+﻿CREATE DATABASE  IF NOT EXISTS `mercamar` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `mercamar`;
+-- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 11-03-2016 a las 22:49:02
--- Versión del servidor: 5.6.24
--- Versión de PHP: 5.6.8
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
+-- Host: localhost    Database: mercamar
+-- ------------------------------------------------------
+-- Server version	5.6.20
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Base de datos: `mercamar`
+-- Temporary table structure for view `almacen_bodega`
 --
 
--- --------------------------------------------------------
+DROP TABLE IF EXISTS `almacen_bodega`;
+/*!50001 DROP VIEW IF EXISTS `almacen_bodega`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `almacen_bodega` (
+  `TOTAL_TA` tinyint NOT NULL,
+  `TOTAL_VA` tinyint NOT NULL,
+  `id` tinyint NOT NULL,
+  `precioVenta` tinyint NOT NULL,
+  `nombre` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Estructura de tabla para la tabla `clientes`
+-- Temporary table structure for view `bodega_camioneta`
 --
 
-CREATE TABLE IF NOT EXISTS `clientes` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `bodega_camioneta`;
+/*!50001 DROP VIEW IF EXISTS `bodega_camioneta`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `bodega_camioneta` (
+  `TOTAL_T` tinyint NOT NULL,
+  `TOTAL_VCA` tinyint NOT NULL,
+  `NOMBRE` tinyint NOT NULL,
+  `id` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `bodega_existencia`
+--
+
+DROP TABLE IF EXISTS `bodega_existencia`;
+/*!50001 DROP VIEW IF EXISTS `bodega_existencia`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `bodega_existencia` (
+  `EXISTENTE` tinyint NOT NULL,
+  `ENTRADA_C` tinyint NOT NULL,
+  `TOTAL_T` tinyint NOT NULL,
+  `TOTAL_DV` tinyint NOT NULL,
+  `TOTAL_TA` tinyint NOT NULL,
+  `TOTAL_VB` tinyint NOT NULL,
+  `nombre` tinyint NOT NULL,
+  `precioVenta` tinyint NOT NULL,
+  `id` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `clientes`
+--
+
+DROP TABLE IF EXISTS `clientes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `clientes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `cedula` int(12) DEFAULT NULL,
   `nombre` varchar(25) DEFAULT NULL,
   `apellidos` varchar(100) DEFAULT NULL,
   `direccion` varchar(30) DEFAULT NULL,
   `barrio` varchar(25) DEFAULT NULL,
   `ciudad` varchar(25) DEFAULT NULL,
-  `telefono` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+  `telefono` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `clientes`
+-- Temporary table structure for view `entrada_cami`
 --
 
-INSERT INTO `clientes` (`id`, `cedula`, `nombre`, `apellidos`, `direccion`, `barrio`, `ciudad`, `telefono`) VALUES
-(1, 1065, 'tatiana', 'gomez', 'calle 15', 'barrio', 'maicao', '353454543'),
-(2, 5, 'dfsdfsdf', 'jouiouoi', 'iouoiuo', 'qweqwe', 'sfdsdfds', '87987'),
-(3, 54645654, 'sfsrewrwe', 'ewrewrewr', 'dsfsdfsd', 'tgretretre', 'fsdfdsfsdfsd', '543534534543'),
-(4, 456456, 'rwer', 'werwer', 'rwerewrew', 'werwerewr', 'rwerwerew', '23423423432'),
-(5, 54645654, 'fghfh', 'tretretre', 'dfgdfgfd', 'dfgdfg', 'dgdfgfd', '543543534'),
-(6, 8, 'rtyrty', 'rtytry', 'rtyrtyrt', 'rtyrtytr', 'rtyrtytr', '6456456546'),
-(7, 6565756, 'werwerwe', 'rtytry', 'rtyrtyrt', 'rtyrtytr', 'rtyrtytr', '6456456546');
-
--- --------------------------------------------------------
+DROP TABLE IF EXISTS `entrada_cami`;
+/*!50001 DROP VIEW IF EXISTS `entrada_cami`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `entrada_cami` (
+  `ENTRADA_C` tinyint NOT NULL,
+  `movimiento` tinyint NOT NULL,
+  `producto_ec` tinyint NOT NULL,
+  `fecha_movimiento_ec` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Estructura de tabla para la tabla `movimiento`
+-- Temporary table structure for view `entrada_comp`
 --
 
-CREATE TABLE IF NOT EXISTS `movimiento` (
+DROP TABLE IF EXISTS `entrada_comp`;
+/*!50001 DROP VIEW IF EXISTS `entrada_comp`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `entrada_comp` (
+  `EXISTENTE` tinyint NOT NULL,
+  `movimiento` tinyint NOT NULL,
+  `producto` tinyint NOT NULL,
+  `fecha_movimiento` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `entrada_dv`
+--
+
+DROP TABLE IF EXISTS `entrada_dv`;
+/*!50001 DROP VIEW IF EXISTS `entrada_dv`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `entrada_dv` (
+  `TOTAL_DV` tinyint NOT NULL,
+  `movimiento` tinyint NOT NULL,
+  `producto_v` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `movimiento`
+--
+
+DROP TABLE IF EXISTS `movimiento`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `movimiento` (
   `id_movimiento` varchar(30) NOT NULL,
   `fecha_movimiento` date DEFAULT NULL,
   `tipo_movimiento` varchar(30) DEFAULT NULL,
   `lugar` varchar(30) DEFAULT NULL,
-  `estado` varchar(3) DEFAULT NULL
+  `estado` varchar(3) DEFAULT NULL,
+  `proveedor` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_movimiento`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `movimiento`
+-- Table structure for table `movimientoe`
 --
 
-INSERT INTO `movimiento` (`id_movimiento`, `fecha_movimiento`, `tipo_movimiento`, `lugar`, `estado`) VALUES
-('7', '2016-03-11', 'VENTA', 'VENTA', 'C');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `movimientoe`
---
-
-CREATE TABLE IF NOT EXISTS `movimientoe` (
-  `id_movimiento_e` int(11) NOT NULL,
+DROP TABLE IF EXISTS `movimientoe`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `movimientoe` (
+  `id_movimiento_e` int(11) NOT NULL AUTO_INCREMENT,
   `movimiento` varchar(30) DEFAULT NULL,
   `producto` int(11) DEFAULT NULL,
   `cantidad` int(11) DEFAULT NULL,
-  `estado_e` varchar(3) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
+  `estado_e` varchar(3) DEFAULT NULL,
+  PRIMARY KEY (`id_movimiento_e`),
+  KEY `producto` (`producto`),
+  KEY `movimientoe_ibfk_2` (`movimiento`),
+  CONSTRAINT `movimientoe_ibfk_1` FOREIGN KEY (`producto`) REFERENCES `productos` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `movimientoe_ibfk_2` FOREIGN KEY (`movimiento`) REFERENCES `movimiento` (`id_movimiento`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Estructura de tabla para la tabla `movimientot`
+-- Table structure for table `movimientot`
 --
 
-CREATE TABLE IF NOT EXISTS `movimientot` (
-  `id_movimiento_t` int(11) NOT NULL,
+DROP TABLE IF EXISTS `movimientot`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `movimientot` (
+  `id_movimiento_t` int(11) NOT NULL AUTO_INCREMENT,
   `movimiento` varchar(30) DEFAULT NULL,
   `producto_t` int(11) DEFAULT NULL,
   `cantidad_t` int(11) DEFAULT NULL,
-  `estado_t` varchar(3) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
+  `estado_t` varchar(3) DEFAULT NULL,
+  PRIMARY KEY (`id_movimiento_t`),
+  KEY `producto_t` (`producto_t`),
+  KEY `movimientot_ibfk_2` (`movimiento`),
+  CONSTRAINT `movimientot_ibfk_1` FOREIGN KEY (`producto_t`) REFERENCES `productos` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `movimientot_ibfk_2` FOREIGN KEY (`movimiento`) REFERENCES `movimiento` (`id_movimiento`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Estructura de tabla para la tabla `pagos`
+-- Table structure for table `pagos`
 --
 
-CREATE TABLE IF NOT EXISTS `pagos` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `pagos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pagos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `valor` int(11) NOT NULL,
   `fecha` date NOT NULL,
   `saldo` int(11) NOT NULL,
-  `idVenta` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+  `idVenta` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `pagos`
+-- Table structure for table `productos`
 --
 
-INSERT INTO `pagos` (`id`, `valor`, `fecha`, `saldo`, `idVenta`) VALUES
-(2, 55000, '2016-03-11', 400000, 2),
-(3, 100000, '2016-03-11', 300000, 2),
-(4, 100000, '2016-03-11', 200000, 2),
-(5, 50000, '2016-03-11', 150000, 2),
-(6, 0, '2016-03-18', 100000, 2),
-(7, 0, '2016-03-11', 100000, 2),
-(8, 0, '2016-03-11', 0, 2),
-(9, 23432, '0000-00-00', -23432, 2),
-(10, 324234, '0000-00-00', -347666, 2),
-(11, 34324, '0000-00-00', -381990, 2),
-(12, 33432, '0000-00-00', -415422, 2);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `productos`
---
-
-CREATE TABLE IF NOT EXISTS `productos` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `productos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `productos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(60) NOT NULL,
   `proveedor` int(11) NOT NULL,
   `valorUnitario` int(11) NOT NULL,
   `precioVenta` int(11) NOT NULL,
-  `descripcion` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+  `descripcion` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `productos`
+-- Table structure for table `proveedores`
 --
 
-INSERT INTO `productos` (`id`, `nombre`, `proveedor`, `valorUnitario`, `precioVenta`, `descripcion`) VALUES
-(7, 'cama', 1, 100000, 200000, 'cama bonita'),
-(8, 'mesa', 2, 500000, 600000, 'bonita mesa'),
-(9, 'Nevera', 1, 10000000, 1200000, 'Nevera Bonita');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `proveedores`
---
-
-CREATE TABLE IF NOT EXISTS `proveedores` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `proveedores`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `proveedores` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(30) DEFAULT NULL,
   `cuidad` varchar(40) DEFAULT NULL,
   `direccion` varchar(40) DEFAULT NULL,
   `telefono_1` int(11) DEFAULT NULL,
-  `telefono_2` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `telefono_2` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1065635833 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `proveedores`
+-- Table structure for table `roles`
 --
 
-INSERT INTO `proveedores` (`id`, `nombre`, `cuidad`, `direccion`, `telefono_1`, `telefono_2`) VALUES
-(1, 'Proveedor 1', 'valledupar', 'calle 12', 310, 311),
-(2, 'proveedor 2', 'werewr', 'ewrwer', 23423, 34234);
-
--- --------------------------------------------------------
+DROP TABLE IF EXISTS `roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_rol` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Estructura de tabla para la tabla `ventas`
+-- Table structure for table `roles_user`
 --
 
-CREATE TABLE IF NOT EXISTS `ventas` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `roles_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `roles_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `rol` int(11) DEFAULT NULL,
+  `usuario` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `rol` (`rol`),
+  KEY `usuario` (`usuario`),
+  CONSTRAINT `roles_user_ibfk_1` FOREIGN KEY (`rol`) REFERENCES `roles` (`id`),
+  CONSTRAINT `roles_user_ibfk_2` FOREIGN KEY (`usuario`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Temporary table structure for view `traslado_almacen`
+--
+
+DROP TABLE IF EXISTS `traslado_almacen`;
+/*!50001 DROP VIEW IF EXISTS `traslado_almacen`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `traslado_almacen` (
+  `TOTAL_TA` tinyint NOT NULL,
+  `movimiento` tinyint NOT NULL,
+  `producto_ta` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `traslado_c`
+--
+
+DROP TABLE IF EXISTS `traslado_c`;
+/*!50001 DROP VIEW IF EXISTS `traslado_c`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `traslado_c` (
+  `TOTAL_T` tinyint NOT NULL,
+  `movimiento` tinyint NOT NULL,
+  `producto_t` tinyint NOT NULL,
+  `fecha_movimiento_t` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `usuarios`
+--
+
+DROP TABLE IF EXISTS `usuarios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_usuario` varchar(15) DEFAULT NULL,
+  `user` varchar(15) DEFAULT NULL,
+  `pass` varchar(12) DEFAULT NULL,
+  `estado_user` int(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Temporary table structure for view `venta_almacen`
+--
+
+DROP TABLE IF EXISTS `venta_almacen`;
+/*!50001 DROP VIEW IF EXISTS `venta_almacen`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `venta_almacen` (
+  `TOTAL_VA` tinyint NOT NULL,
+  `id_movimiento` tinyint NOT NULL,
+  `idproducto` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `venta_bodega`
+--
+
+DROP TABLE IF EXISTS `venta_bodega`;
+/*!50001 DROP VIEW IF EXISTS `venta_bodega`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `venta_bodega` (
+  `TOTAL_VB` tinyint NOT NULL,
+  `id_movimiento` tinyint NOT NULL,
+  `idproducto` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `venta_camioneta`
+--
+
+DROP TABLE IF EXISTS `venta_camioneta`;
+/*!50001 DROP VIEW IF EXISTS `venta_camioneta`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `venta_camioneta` (
+  `TOTAL_VCA` tinyint NOT NULL,
+  `id_movimientovc` tinyint NOT NULL,
+  `idproductovc` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ventas`
+--
+
+DROP TABLE IF EXISTS `ventas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ventas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `cliente` int(11) NOT NULL,
   `fecha` date NOT NULL,
   `formaPago` varchar(20) NOT NULL,
@@ -196,171 +397,245 @@ CREATE TABLE IF NOT EXISTS `ventas` (
   `total` int(11) NOT NULL,
   `numeroCuotas` int(11) NOT NULL,
   `valorCuotas` int(11) NOT NULL,
-  `saldo` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+  `saldo` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `ventas`
+-- Table structure for table `ventasproducto`
 --
 
-INSERT INTO `ventas` (`id`, `cliente`, `fecha`, `formaPago`, `tiempoPago`, `descuento`, `descuentoValor`, `abono`, `subtotal`, `total`, `numeroCuotas`, `valorCuotas`, `saldo`) VALUES
-(2, 1, '2016-03-09', 'CONTADO', 3, 35, 245000, 100000, 700000, 455000, 3, 151667, -415422),
-(3, 1, '2016-03-09', 'CONTADO', 3, 35, 455000, 100000, 1300000, 845000, 3, 281667, 845000),
-(4, 1, '2016-03-09', 'CREDI-CONTADO', 3, 35, 245000, 100000, 700000, 455000, 3, 151667, 455000),
-(5, 1, '2016-03-11', 'CONTADO', 1, 0, 0, 200000, 0, 0, 1, 0, 0),
-(6, 0, '0000-00-00', '', 0, 0, 0, 0, 0, 0, 0, 0, 400000),
-(7, 1, '2016-03-11', 'CONTADO', 1, 0, 0, 2000000, 0, 0, 1, 0, 0);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ventasproducto`
---
-
-CREATE TABLE IF NOT EXISTS `ventasproducto` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `ventasproducto`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ventasproducto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idVenta` int(11) NOT NULL,
   `idProducto` int(11) NOT NULL,
   `cantidad` int(11) NOT NULL,
   `precio` int(11) NOT NULL,
-  `total` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+  `total` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `ventasproducto`
+-- Final view structure for view `almacen_bodega`
 --
 
-INSERT INTO `ventasproducto` (`id`, `idVenta`, `idProducto`, `cantidad`, `precio`, `total`) VALUES
-(1, 2, 7, 1, 200000, 200000),
-(2, 2, 8, 1, 600000, 600000),
-(3, 3, 7, 1, 200000, 800000),
-(4, 3, 8, 1, 600000, 600000),
-(5, 4, 7, 1, 200000, 200000),
-(6, 4, 8, 1, 600000, 600000),
-(7, 5, 7, 1, 200000, 200000),
-(8, 7, 7, 1, 200000, 200000),
-(9, 7, 8, 1, 600000, 1800000);
+/*!50001 DROP TABLE IF EXISTS `almacen_bodega`*/;
+/*!50001 DROP VIEW IF EXISTS `almacen_bodega`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `almacen_bodega` AS select `traslado_almacen`.`TOTAL_TA` AS `TOTAL_TA`,`venta_almacen`.`TOTAL_VA` AS `TOTAL_VA`,`productos`.`id` AS `id`,`productos`.`precioVenta` AS `precioVenta`,`productos`.`nombre` AS `nombre` from (`productos` left join (`traslado_almacen` left join `venta_almacen` on((`traslado_almacen`.`producto_ta` = `venta_almacen`.`idproducto`))) on((`productos`.`id` = `traslado_almacen`.`producto_ta`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
--- Índices para tablas volcadas
+-- Final view structure for view `bodega_camioneta`
 --
 
---
--- Indices de la tabla `clientes`
---
-ALTER TABLE `clientes`
-  ADD PRIMARY KEY (`id`);
+/*!50001 DROP TABLE IF EXISTS `bodega_camioneta`*/;
+/*!50001 DROP VIEW IF EXISTS `bodega_camioneta`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `bodega_camioneta` AS select `traslado_c`.`TOTAL_T` AS `TOTAL_T`,`venta_camioneta`.`TOTAL_VCA` AS `TOTAL_VCA`,`productos`.`nombre` AS `NOMBRE`,`productos`.`id` AS `id` from (`productos` left join (`traslado_c` left join `venta_camioneta` on((`traslado_c`.`producto_t` = `venta_camioneta`.`idproductovc`))) on((`productos`.`id` = `traslado_c`.`producto_t`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
--- Indices de la tabla `movimiento`
---
-ALTER TABLE `movimiento`
-  ADD PRIMARY KEY (`id_movimiento`);
-
---
--- Indices de la tabla `movimientoe`
---
-ALTER TABLE `movimientoe`
-  ADD PRIMARY KEY (`id_movimiento_e`), ADD KEY `producto` (`producto`), ADD KEY `movimientoe_ibfk_2` (`movimiento`);
-
---
--- Indices de la tabla `movimientot`
---
-ALTER TABLE `movimientot`
-  ADD PRIMARY KEY (`id_movimiento_t`), ADD KEY `producto_t` (`producto_t`), ADD KEY `movimientot_ibfk_2` (`movimiento`);
-
---
--- Indices de la tabla `pagos`
---
-ALTER TABLE `pagos`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `productos`
---
-ALTER TABLE `productos`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `proveedores`
---
-ALTER TABLE `proveedores`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `ventas`
---
-ALTER TABLE `ventas`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `ventasproducto`
---
-ALTER TABLE `ventasproducto`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
+-- Final view structure for view `bodega_existencia`
 --
 
---
--- AUTO_INCREMENT de la tabla `clientes`
---
-ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT de la tabla `movimientoe`
---
-ALTER TABLE `movimientoe`
-  MODIFY `id_movimiento_e` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `movimientot`
---
-ALTER TABLE `movimientot`
-  MODIFY `id_movimiento_t` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `pagos`
---
-ALTER TABLE `pagos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
---
--- AUTO_INCREMENT de la tabla `productos`
---
-ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
---
--- AUTO_INCREMENT de la tabla `proveedores`
---
-ALTER TABLE `proveedores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT de la tabla `ventas`
---
-ALTER TABLE `ventas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT de la tabla `ventasproducto`
---
-ALTER TABLE `ventasproducto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
---
--- Restricciones para tablas volcadas
---
+/*!50001 DROP TABLE IF EXISTS `bodega_existencia`*/;
+/*!50001 DROP VIEW IF EXISTS `bodega_existencia`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `bodega_existencia` AS select `entrada_comp`.`EXISTENTE` AS `EXISTENTE`,`entrada_cami`.`ENTRADA_C` AS `ENTRADA_C`,`traslado_c`.`TOTAL_T` AS `TOTAL_T`,`entrada_dv`.`TOTAL_DV` AS `TOTAL_DV`,`traslado_almacen`.`TOTAL_TA` AS `TOTAL_TA`,`venta_bodega`.`TOTAL_VB` AS `TOTAL_VB`,`productos`.`nombre` AS `nombre`,`productos`.`precioVenta` AS `precioVenta`,`productos`.`id` AS `id` from (`productos` left join (((((`entrada_comp` left join `entrada_cami` on((`entrada_cami`.`producto_ec` = `entrada_comp`.`producto`))) left join `traslado_c` on((`traslado_c`.`producto_t` = `entrada_comp`.`producto`))) left join `entrada_dv` on((`entrada_dv`.`producto_v` = `entrada_comp`.`producto`))) left join `venta_bodega` on((`venta_bodega`.`idproducto` = `entrada_comp`.`producto`))) left join `traslado_almacen` on((`traslado_almacen`.`producto_ta` = `entrada_comp`.`producto`))) on((`productos`.`id` = `entrada_comp`.`producto`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
--- Filtros para la tabla `movimientoe`
+-- Final view structure for view `entrada_cami`
 --
-ALTER TABLE `movimientoe`
-ADD CONSTRAINT `movimientoe_ibfk_1` FOREIGN KEY (`producto`) REFERENCES `productos` (`id`) ON UPDATE CASCADE,
-ADD CONSTRAINT `movimientoe_ibfk_2` FOREIGN KEY (`movimiento`) REFERENCES `movimiento` (`id_movimiento`) ON DELETE CASCADE;
+
+/*!50001 DROP TABLE IF EXISTS `entrada_cami`*/;
+/*!50001 DROP VIEW IF EXISTS `entrada_cami`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `entrada_cami` AS select sum(`movimientoe`.`cantidad`) AS `ENTRADA_C`,`movimientoe`.`movimiento` AS `movimiento`,`movimientoe`.`producto` AS `producto_ec`,`movimiento`.`fecha_movimiento` AS `fecha_movimiento_ec` from (`movimiento` left join `movimientoe` on((`movimiento`.`id_movimiento` = `movimientoe`.`movimiento`))) where (`movimiento`.`tipo_movimiento` = 'ENTRADA (CAMIONETA)') group by `producto_ec` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
--- Filtros para la tabla `movimientot`
+-- Final view structure for view `entrada_comp`
 --
-ALTER TABLE `movimientot`
-ADD CONSTRAINT `movimientot_ibfk_1` FOREIGN KEY (`producto_t`) REFERENCES `productos` (`id`) ON UPDATE CASCADE,
-ADD CONSTRAINT `movimientot_ibfk_2` FOREIGN KEY (`movimiento`) REFERENCES `movimiento` (`id_movimiento`) ON DELETE CASCADE;
 
+/*!50001 DROP TABLE IF EXISTS `entrada_comp`*/;
+/*!50001 DROP VIEW IF EXISTS `entrada_comp`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `entrada_comp` AS select sum(`movimientoe`.`cantidad`) AS `EXISTENTE`,`movimientoe`.`movimiento` AS `movimiento`,`movimientoe`.`producto` AS `producto`,`movimiento`.`fecha_movimiento` AS `fecha_movimiento` from (`movimiento` left join `movimientoe` on((`movimiento`.`id_movimiento` = `movimientoe`.`movimiento`))) where (`movimiento`.`tipo_movimiento` = 'ENTRADA (COMPRA)') group by `movimientoe`.`producto` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `entrada_dv`
+--
+
+/*!50001 DROP TABLE IF EXISTS `entrada_dv`*/;
+/*!50001 DROP VIEW IF EXISTS `entrada_dv`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `entrada_dv` AS select sum(`movimientoe`.`cantidad`) AS `TOTAL_DV`,`movimientoe`.`movimiento` AS `movimiento`,`movimientoe`.`producto` AS `producto_v` from (`movimiento` left join `movimientoe` on((`movimiento`.`id_movimiento` = `movimientoe`.`movimiento`))) where (`movimiento`.`tipo_movimiento` = 'ENTRADA (DEVOLUCION)') group by `producto_v` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `traslado_almacen`
+--
+
+/*!50001 DROP TABLE IF EXISTS `traslado_almacen`*/;
+/*!50001 DROP VIEW IF EXISTS `traslado_almacen`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `traslado_almacen` AS select sum(`movimientot`.`cantidad_t`) AS `TOTAL_TA`,`movimientot`.`movimiento` AS `movimiento`,`movimientot`.`producto_t` AS `producto_ta` from (`movimiento` left join `movimientot` on((`movimiento`.`id_movimiento` = `movimientot`.`movimiento`))) where (`movimiento`.`tipo_movimiento` = 'TRASLADO  (ALMACEN)') group by `producto_ta` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `traslado_c`
+--
+
+/*!50001 DROP TABLE IF EXISTS `traslado_c`*/;
+/*!50001 DROP VIEW IF EXISTS `traslado_c`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `traslado_c` AS select sum(`movimientot`.`cantidad_t`) AS `TOTAL_T`,`movimientot`.`movimiento` AS `movimiento`,`movimientot`.`producto_t` AS `producto_t`,`movimiento`.`fecha_movimiento` AS `fecha_movimiento_t` from (`movimiento` left join `movimientot` on((`movimiento`.`id_movimiento` = `movimientot`.`movimiento`))) where (`movimiento`.`tipo_movimiento` = 'TRASLADO  (CAMIONETA)') group by `movimientot`.`producto_t` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `venta_almacen`
+--
+
+/*!50001 DROP TABLE IF EXISTS `venta_almacen`*/;
+/*!50001 DROP VIEW IF EXISTS `venta_almacen`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `venta_almacen` AS select sum(`ventasproducto`.`cantidad`) AS `TOTAL_VA`,`movimiento`.`id_movimiento` AS `id_movimiento`,`ventasproducto`.`idProducto` AS `idproducto` from (`movimiento` left join `ventasproducto` on((`ventasproducto`.`idVenta` = `movimiento`.`id_movimiento`))) where (`movimiento`.`tipo_movimiento` = 'VA') group by `ventasproducto`.`idProducto` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `venta_bodega`
+--
+
+/*!50001 DROP TABLE IF EXISTS `venta_bodega`*/;
+/*!50001 DROP VIEW IF EXISTS `venta_bodega`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `venta_bodega` AS select sum(`ventasproducto`.`cantidad`) AS `TOTAL_VB`,`movimiento`.`id_movimiento` AS `id_movimiento`,`ventasproducto`.`idProducto` AS `idproducto` from (`movimiento` left join `ventasproducto` on((`ventasproducto`.`idVenta` = `movimiento`.`id_movimiento`))) where (`movimiento`.`tipo_movimiento` = 'VB') group by `ventasproducto`.`idProducto` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `venta_camioneta`
+--
+
+/*!50001 DROP TABLE IF EXISTS `venta_camioneta`*/;
+/*!50001 DROP VIEW IF EXISTS `venta_camioneta`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `venta_camioneta` AS select sum(`ventasproducto`.`cantidad`) AS `TOTAL_VCA`,`movimiento`.`id_movimiento` AS `id_movimientovc`,`ventasproducto`.`idProducto` AS `idproductovc` from (`movimiento` left join `ventasproducto` on((`ventasproducto`.`idVenta` = `movimiento`.`id_movimiento`))) where (`movimiento`.`tipo_movimiento` = 'VC') group by `ventasproducto`.`idProducto` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2016-03-24 12:50:43
