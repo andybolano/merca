@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 
 use DB;
 
-class ReportinventarioController extends Controller
+class ReporVentasController extends Controller
 {
     
 
@@ -28,43 +28,6 @@ class ReportinventarioController extends Controller
     }
 
   }
-  
-  public function getExistencia(){
-   try
-    {
-       $consulta = DB::select(DB::raw("SELECT * FROM mercamar.bodega_existencia"));
-        return $consulta;
-    } 
-    catch (Exception $exc) {
-        echo $exc->getTraceAsString();
-    }
-
-  }
-  
-  public function getExistencialmacen(){
-   try
-    {
-       $consulta = DB::select(DB::raw("SELECT * FROM mercamar.almacen_bodega"));
-        return $consulta;
-    } 
-    catch (Exception $exc) {
-        echo $exc->getTraceAsString();
-    }
-
-  }
-  
-  public function getExistenciacamioneta(){
-   try
-    {
-       $consulta = DB::select(DB::raw("SELECT * FROM mercamar.bodega_camioneta"));
-        return $consulta;
-    } 
-    catch (Exception $exc) {
-        echo $exc->getTraceAsString();
-    }
-
-  }
-  
   
   public function getReportefechas($inicial,$final){
      try

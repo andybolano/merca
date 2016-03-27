@@ -31,6 +31,10 @@ var app;
                     .when("/Rinventario",{
                         templateUrl: 'reportes/index.html'
                     })
+                    .when("/Ventas",{
+                        templateUrl: 'reportes/index.html'
+                    })
+                    
                     .when("/clientes",{
                         templateUrl: 'cliente/index.html'
                     })

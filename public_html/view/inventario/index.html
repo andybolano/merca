@@ -3,17 +3,16 @@
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <div class="row">
-                    <div class="col-lg-7">
+                    <div class="col-lg-6">
                         <h2>Gestion de inventario</h2>
                     </div>
 
                     <div class="col-lg-2">
                         <a href="#/movimiento" class="btn btn-sm btn-primary">Nuevo movimiento</a>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="input-group"><input type="text" placeholder="Buscador" class="input-sm form-control"  ng-model="filtro"> <span class="input-group-btn">
-                            <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-search"></i></button> </span>
-                        </div>
+                    <div class="col-lg-4">
+                        <label class="control-label" ng-click="ingresos()">Ingresos</label>
+                        <label class="control-label" ng-click="traslados()">Traslados</label>
                     </div>
                 </div>
                 <div class="hr-line-dashed"></div>
@@ -41,7 +40,7 @@
                                 <td style="text-align: center"><a href="javasrcritp:;" title="detalle movimiento" ng-click=""><i class="fa fa-print" style="font-size:20px;color:#1A7BB9;"></i></a></td>
                                 <td style="text-align: center">
                                     <a href="javasrcritp:;" title="Editar movimiento" ng-click="cargarModificar(item)"><i class="fa fa-edit" style="font-size:20px;color:#1A7BB9;" ></i></a>
-                                    <a href="javasrcritp:;" title="Anular movimiento" ng-click="remover(item.id_movimiento)"><i class="fa fa-trash" style="font-size:20px;color:#ED5565;"></i></a>
+                                    <a href="javasrcritp:;" title="Anular movimiento" ng-click="remover(item.movimiento)"><i class="fa fa-trash" style="font-size:20px;color:#ED5565;"></i></a>
                                 </td>
                             </tr>
                         </tbody>

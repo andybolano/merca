@@ -42,8 +42,8 @@ app.controller('reporteController',['$scope','$http', function ($scope,$http){
         $scope.almacen=false;
         $scope.camioneta=false;
         
-        $scope.movimiento.fechaI;
-        $scope.movimiento.fechaF;
+        $scope.movimiento.inicial;
+        $scope.movimiento.final;
         $scope.movimiento.consulta;
         
         Loadreport();
@@ -52,14 +52,58 @@ app.controller('reporteController',['$scope','$http', function ($scope,$http){
         
         
         function  Loadreport (){
-            var dato ={};
-            dato.fechainicio=$scope.movimiento.fechaI;
-            dato.fechaF=$scope.movimiento.fechaF;
+            var DESCUENTOS = 0;
+            $http.get(uri + '/api/Reportinventario/existencia/get').success(function(respuesta) {
+                $scope.listamovimiento = respuesta;
+                angular.forEach($scope.listamovimiento, function(item, i) {
+
+                    if (item.EXISTENTE == null) {
+                        item.EXISTENTE = 0;
+                    }
+                    if (item.ENTRADA_C == null) {
+                        item.ENTRADA_C = 0;
+                    }
+                    if (item.TOTAL_T == null) {
+                        item.TOTAL_T = 0;
+                    }
+                    if (item.TOTAL_DV == null) {
+                        item.TOTAL_DV = 0;
+                    }
+                    if (item.TOTAL_TA == null) {
+                        item.TOTAL_TA = 0;
+                    }
+                    if (item.TOTAL_VB == null) {
+                        item.TOTAL_VB = 0;
+                    }
+                    if (item.TOTAL_BODEGA == null) {
+                    item.TOTAL_BODEGA = 0;
+                    }
+
+
+                    DESCUENTOS = parseInt(item.TOTAL_T) + parseInt(item.TOTAL_TA) + parseInt(item.TOTAL_VB);
+
+                    //console.log('descuentos' + DESCUENTOS + '' + item.nombre)
+
+                    TOTAL_BODEGA = parseInt(item.EXISTENTE) + parseInt(item.ENTRADA_C) + parseInt(item.TOTAL_DV) - parseInt(DESCUENTOS);
+
+
+                    //console.log('TOTAL BODEGA' + TOTAL_BODEGA + '' + item.nombre);
+                    item.TOTAL_BODEGA = TOTAL_BODEGA;
+
+                });
+              
+            });
+        };
+        
+        $scope.reporfecha = function (){
+           var  dato={}
+            dato.inicial=$scope.movimiento.inicial;
+            dato.final=$scope.movimiento.final;
             
-            var fecha= new Date(dato.fechaI);
-            var dc = fecha.getDate();
-            var mc = fecha.getMonth()+1; //hoy es 0!
-            var yc = fecha.getFullYear();
+            var inic= new Date(dato.inicial);
+            var dc = inic.getDate();
+            var mc = inic.getMonth()+1; //hoy es 0!
+            var yc = inic.getFullYear();
 
             if(dc<10) {
                 dc='0'+dc;
@@ -68,12 +112,12 @@ app.controller('reporteController',['$scope','$http', function ($scope,$http){
             if(mc<10) {
                 mc='0'+mc;
             } 
-           var fec = yc+"/"+mc+"/"+dc;
+           var inicial = yc+'-'+mc+'-'+dc;
       
-           var fechaf= new Date(dato.fechaF);
-            var dcf = fechaf.getDate();
-            var mcf = fechaf.getMonth()+1; //hoy es 0!
-            var ycf = fechaf.getFullYear();
+           var fin= new Date(dato.final);
+            var dcf = fin.getDate();
+            var mcf = fin.getMonth()+1; //hoy es 0!
+            var ycf = fin.getFullYear();
 
             if(dcf<10) {
                 dcf='0'+dcf;
@@ -82,12 +126,16 @@ app.controller('reporteController',['$scope','$http', function ($scope,$http){
             if(mcf<10) {
                 mcf='0'+mcf;
             } 
-           var fecf = ycf+"/"+mcf+"/"+dcf;
+           var final = ycf+'-'+mcf+'-'+dcf;
            
           
-            var DESCUENTOS = 0;
-            $http.get(uri + '/api/Reportinventario/existencia/get').success(function(respuesta) {
+            $http.get(uri + '/api/Reportinventario/existencia/fechas/'+inicial+'/'+final).success(function(respuesta) {
                 $scope.listamovimiento = respuesta;
+                console.log($scope.listamovimiento);
+                $scope.bodega=true;
+                $scope.almacen=false;
+                $scope.camioneta=false;
+        
                 angular.forEach($scope.listamovimiento, function(item, i) {
 
                     if (item.EXISTENTE == null) {

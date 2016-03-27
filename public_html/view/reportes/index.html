@@ -4,7 +4,7 @@
             <div class="ibox-title">
                 <div class="row">
                     <div class="col-lg-7">
-                        <h2>Gestion reportes inventario</h2>
+                        <h2>Reportes de inventario</h2>
                     </div>
 
                 </div>
@@ -19,7 +19,7 @@
                         <div class="input-group date">
                             <span class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
-                            </span><input type="date" class="form-control" ng-model="movimiento.fechaI">
+                            </span><input type="date" class="form-control" ng-model="movimiento.inicial">
                         </div>
                     </div>
                     <div class="form-group col-lg-3">
@@ -27,7 +27,7 @@
                         <div class="input-group date">
                             <span class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
-                            </span><input type="date" class="form-control" ng-model="movimiento.fechaF">
+                            </span><input type="date" class="form-control" ng-model="movimiento.final">
                         </div>
                     </div>
                     
@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <div class="col-lg-2" style="float: left;padding-top: 22px">
-                        <button class="btn btn-success" title="Cargar datos" id="actualizar" ng-click="Loadreport();"><i class="fa fa-search"></i></button>
+                        <button class="btn btn-success" title="Cargar datos" id="actualizar" ng-click="reporfecha();"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
                  <div class="table-responsive" ng-show="bodega">

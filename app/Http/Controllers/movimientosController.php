@@ -23,14 +23,31 @@ class movimientosController extends Controller
      */
     public function index()
     {
-        try {
-            return movimiento::all();   
+        try 
+        {
+            $result = DB::select(DB::raw("select fecha_movimiento,tipo_movimiento,lugar,id_movimiento AS movimiento FROM movimiento
+                where tipo_movimiento = 'ENTRADA (COMPRA)' or tipo_movimiento = 'ENTRADA (DEVOLUCION)'
+                "));
+        return $result;
         } catch (Exception $exc) {
             echo $exc->getTraceAsString();
         }
     }
     
-
+     public function MovimientosTraslados (){
+        try 
+            {
+                $result = DB::select(DB::raw("
+                select fecha_movimiento,tipo_movimiento,lugar,id_movimiento AS movimiento FROM movimiento
+                where tipo_movimiento = 'TRASLADO  (CAMIONETA)' or tipo_movimiento = 'TRASLADO  (ALMACEN)'
+                "));
+            return $result;
+            } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+      }
+    
+    
+}
     
 //    /**
 //     * Store a newly created resource in storage.

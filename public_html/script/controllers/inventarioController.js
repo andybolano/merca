@@ -45,17 +45,25 @@ app.controller('inventarioController', ['$scope', '$http', function($scope, $htt
         $scope.listaCarrito.movimiento;
         refrescar();
 
+
+       $scope.traslados = function (){
+           $http.get(uri + '/api/movimientos/traslados/traslados').success(function(respuesta) {
+              $scope.listamovimiento = respuesta;
+            });
+       };
+       
+       $scope.ingresos = function (){refrescar();}
+       
         function refrescar() {
             $http.get(uri + '/api/movimientos').success(function(respuesta) {
 
                 $scope.listamovimiento = respuesta;
             });
-        }
+        };
 
         function  iniciar() {
             $scope.movimiento = {};
-        }
-        ;
+        };
 
         $scope.CurrentDate = new Date();//Fecha actual
 
@@ -109,8 +117,8 @@ app.controller('inventarioController', ['$scope', '$http', function($scope, $htt
                 $scope.listaProveedores = respuesta;
                 $scope.Proveedor = "";
             });
-        }
-        ;
+        } ;
+
 
         $scope.addCart = function(producto) {
             var cantidad = prompt("Ingrese una cantidad", '');
@@ -375,8 +383,7 @@ app.controller('inventarioController', ['$scope', '$http', function($scope, $htt
 
             mywindow.print();
             mywindow.close();
-        }
-        ;
+        };
 
 
 
