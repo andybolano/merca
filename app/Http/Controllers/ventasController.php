@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use App\venta;
 use App\ventaProducto;
+use App\fechaPagos;
 use DB;
 use App\movimiento;
 class VentasController extends Controller
@@ -38,9 +39,11 @@ class VentasController extends Controller
     {
         try {
              $result = DB::select(DB::raw(
-                        "Select *, v.id as idventa  from ventas as v INNER JOIN clientes as c ON v.cliente = c.id "
-                        
-                    ));
+                        "Select *, v.id as idventa  from ventas as v 
+                        INNER JOIN clientes as c ON v.cliente = c.id 
+                        INNER JOIN movimiento as m ON m. id_movimiento = v.id
+                        WHERE v.estado='VIGENTE'"
+                     ));
          
          return $result;  
         } catch (Exception $exc) {
@@ -64,7 +67,7 @@ class VentasController extends Controller
 
 
         
-    /**
+     /**
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
@@ -88,34 +91,40 @@ class VentasController extends Controller
             $venta->numeroCuotas= $data["numeroCuotas"];
             $venta->valorCuotas= $data["valorCuotas"];
             $venta->saldo= $data["total"];
+            $venta->estado = "VIGENTE";
             $venta->save();
             
             $productos = json_decode($data["productos"]);
-        foreach ($productos as $p) {
-            $producto = new ventaProducto();
-            $producto->idVenta = $venta->id;
-            $producto->idProducto = $p->id;
-            $producto->cantidad = $p->cantidad;
-            $producto->precio = $p->precio;
-            $producto->total = $p->subtotal;
-            $producto->save();
-              
-        }
+                foreach ($productos as $p) {
+                      $producto = new ventaProducto();
+                      $producto->idVenta = $venta->id;
+                      $producto->idProducto = $p->id;
+                      $producto->cantidad = $p->cantidad;
+                      $producto->precio = $p->precio;
+                      $producto->total = $p->subtotal;
+                      $producto->save();    
+                  }
+                  
+                  $fechas = json_decode($data["fechasPagos"]);
+                foreach ($fechas as $f) {
+                      $fechaPagos = new FechaPagos();
+                      $fechaPagos->idCuota = $f->id;
+                      $fechaPagos->fecha = $f->fecha;
+                      $fechaPagos->idVenta = $venta->id;
+                      $fechaPagos->estado = 'PENDIENTE';
+                      $fechaPagos->save();    
+                  }
+
         
-        
-        $movimiento = new movimiento();
-        $movimiento->id_movimiento=$venta->id;
+            $movimiento = new movimiento();
+            $movimiento->id_movimiento=$venta->id;
             $movimiento->fecha_movimiento= $data["fecha"];
-            $movimiento->tipo_movimiento= 'VENTA';
-            $movimiento->lugar = 'ALMACEN (PRINCIPAL)';
+            $movimiento->tipo_movimiento= $data["movimiento"];
+            $movimiento->lugar = 'VENTA';
             $movimiento->estado= "C";
             $movimiento->save();
-        
-         
-            
      
-     
-            return JsonResponse::create(array('message' => "Venta Registrada Correctamente", "request" => $venta), 200);
+            return JsonResponse::create(array('message' => "Venta Registrada Correctamente", "request" => $venta->id), 200);
             
         } catch (Exception $exc) {
             return JsonResponse::create(array('message' => "No se pudo guardar el Venta", "exception"=>$exc->getMessage(), "request" =>json_encode($data)), 401);
@@ -130,32 +139,27 @@ class VentasController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+        
+  public function UpdateVentas(Request $request)
     {
         try {
-            
             $data = $request->all();
+            DB::table('ventas')
+            ->where('id', $data['id']) 
+            ->update(['fecha' => $data['fecha']],['formaPago' => $data['formaPago']]);
             
-            $venta = venta::find($id);
-
-            $venta->nombre = $data["nombre"];
-            $venta->proveedor= $data["proveedor"];
-            $venta->valorUnitario= $data["valorUnitario"];
-            $venta->precioVenta= $data["precioVenta"];
-            $venta->descripcion= $data["descripcion"];
-        
+             DB::table('movimiento')
+            ->where('id_movimiento', $data['id']) 
+            ->update(['tipo_movimiento' => $data['tipo_movimiento']]);
             
-            $venta->save();
-            
-        
-            
-        return JsonResponse::create(array('message' => "Venta Modificada Correctamente", "request" =>json_encode($data)), 200);
+        return JsonResponse::create(array('message' => "Movimiento Modificado Correctamente", "request" =>json_encode($data)), 200);
             
         } catch (Exception $exc) {
-            return JsonResponse::create(array('message' => "No se pudo Modificar la marca", "exception"=>$exc->getMessage(), "request" =>json_encode($data)), 401);
+            return JsonResponse::create(array('message' => "No se pudo Modificar el proveedor", "exception"=>$exc->getMessage(), "request" =>json_encode($data)), 401);
         }
 
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -167,8 +171,10 @@ class VentasController extends Controller
     {
         try {
             $venta = venta::find($id);
-            $venta->delete();
-            return JsonResponse::create(array('message' => "Venta Eliminado Correctamente", "request" =>json_encode($id)), 200);
+            $venta->estado = "ANULADO";
+            $venta->save();
+          
+            return JsonResponse::create(array('message' => "Venta Eliminada Correctamente", "request" => "true"), 200);
         } catch (Exception $ex) {
             return JsonResponse::create(array('message' => "No se pudo Eliminar la marca", "exception"=>$ex->getMessage(), "request" =>json_encode($id)), 401);
         }

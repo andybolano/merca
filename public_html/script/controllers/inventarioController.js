@@ -8,9 +8,16 @@
  * por: Yeiner Meriño Restrepo
  * Controlador para los movimientos realizados en inventario
  */
+
+
 app.controller('inventarioController', ['$scope', '$http', function($scope, $http) {
         var lugar;
+        var tipo = 0;
+        $scope.Update = {};
+        $scope.Update.producto = "";
+        $scope.Update.cantidad = 0;
         $scope.listamovimiento = {};
+        $scope.Detallemovimiento = {};
         var hoy = new Date();
         var dd = hoy.getDate();
         var mm = hoy.getMonth() + 1; //hoy es 0!
@@ -40,20 +47,24 @@ app.controller('inventarioController', ['$scope', '$http', function($scope, $htt
         $scope.movimiento = {};
         $scope.detalle = {};
         $scope.movimiento.id_movimiento = "";
-        $scope.movimiento.fecha_movimiento="";
+        $scope.movimiento.fecha_movimiento = "";
 
         $scope.listaCarrito.movimiento;
         refrescar();
 
 
-       $scope.traslados = function (){
-           $http.get(uri + '/api/movimientos/traslados/traslados').success(function(respuesta) {
-              $scope.listamovimiento = respuesta;
+        $scope.traslados = function() {
+            tipo = 1;
+            $http.get(uri + '/api/movimientos/traslados/traslados').success(function(respuesta) {
+                $scope.listamovimiento = respuesta;
             });
-       };
-       
-       $scope.ingresos = function (){refrescar();}
-       
+        };
+
+        $scope.ingresos = function() {
+            refrescar();
+            tipo = 0;
+        }
+
         function refrescar() {
             $http.get(uri + '/api/movimientos').success(function(respuesta) {
 
@@ -67,6 +78,63 @@ app.controller('inventarioController', ['$scope', '$http', function($scope, $htt
 
         $scope.CurrentDate = new Date();//Fecha actual
 
+        $scope.MovimietoModificar = function(item) {
+            //alert(tipo)
+            switch (tipo) {
+                case 1:
+                    $("#Movimientomodal").modal('show');
+                    $http.get(uri + '/api/movimientos/traslados/detallemovimieto/' + item).success(function(respuesta) {
+                        $scope.Detallemovimiento = respuesta;
+                        console.log($scope.Detallemovimiento);
+                    });
+                    break;
+                case 0:
+                    //alert(item)
+                    $("#Movimientomodal").modal('show');
+                    $http.get(uri + '/api/movimientos/entrada/detalleentrada/' + item).success(function(respuesta) {
+                        $scope.Detallemovimiento = respuesta;
+                        console.log($scope.Detallemovimiento);
+                    });
+                    break;
+
+            }
+        };
+
+        $scope.sacarCarrito = function(index) {
+            $scope.listaCarrito.splice(index, 1);
+        };
+
+        $scope.removelinea = function(item, producto) {
+
+            //alert(item);
+            //alert(producto);
+            //alert(tipo);
+            switch (tipo) {
+                case 1:
+                    $http({
+                        method: "delete",
+                        url: uri + '/api/movimientos/tasraladoR/remove/' + item + '/' + producto,
+                        //data: item+'/'+producto
+                    }).success(function(respuesta) {
+                        toastr["success"](respuesta.message);
+                        $("#Movimientomodal").modal('hide');
+                    });
+                    break;
+                case 0:
+
+                    $("#Movimientomodal").modal('show');
+                    $http({
+                        method: "delete",
+                        url: uri + '/api/movimientos/Removeentrada/removelienaIn/' + item + '/' + producto,
+                        //data: item+'/'+producto
+                    }).success(function(respuesta) {
+                        toastr["success"](respuesta.message);
+                        $("#Movimientomodal").modal('hide');
+                    });
+                    break;
+
+            }
+        };
 
         $scope.productos = function() {
             var DESCUENTOS = 0;
@@ -93,18 +161,19 @@ app.controller('inventarioController', ['$scope', '$http', function($scope, $htt
                     if (item.TOTAL_VB == null) {
                         item.TOTAL_VB = 0;
                     }
-
-
-
+                    if (item.TOTAL_BA == null) {
+                        item.TOTAL_BA = 0;
+                    }
+                   
                     DESCUENTOS = parseInt(item.TOTAL_T) + parseInt(item.TOTAL_TA) + parseInt(item.TOTAL_VB);
 
-                    console.log('descuentos' + DESCUENTOS + '' + item.nombre)
+                    console.log('descuentos' + DESCUENTOS + '' + item.nombre);
 
                     TOTAL_BODEGA = parseInt(item.EXISTENTE) + parseInt(item.ENTRADA_C) + parseInt(item.TOTAL_DV) - parseInt(DESCUENTOS);
 
 
                     console.log('TOTAL BODEGA' + TOTAL_BODEGA + '' + item.nombre);
-                    item.EXISTENTE = TOTAL_BODEGA;
+                    item.EXISTENTE = TOTAL_BODEGA + parseInt(item.TOTAL_BA);
 
                 });
                 console.log($scope.listaProductos);
@@ -117,27 +186,48 @@ app.controller('inventarioController', ['$scope', '$http', function($scope, $htt
                 $scope.listaProveedores = respuesta;
                 $scope.Proveedor = "";
             });
-        } ;
+        };
 
 
         $scope.addCart = function(producto) {
-            var cantidad = prompt("Ingrese una cantidad", '');
-            while (cantidad === null || cantidad === "" || parseInt(cantidad) != cantidad) {
-                cantidad = prompt("Ingrese una cantidad", '');
-            }
+//            prompt("Ingrese una cantidad", '');
+//            while (cantidad === null || cantidad === "" || parseInt(cantidad) != cantidad) {
+//                cantidad = prompt("Ingrese una cantidad", '');
+//            }
+        for (var i = 0; i < $scope.listaCarrito.length; i++) {
+                      if (producto.id == $scope.listaCarrito[i].producto){
+                           toastr["error"]("El producto ya se encuentra en el carrito de compra, por favor verifique.");
+                          return;
+                      }
+         };
+             
+            var cantidadM = 1;
             productos.push(
                     {
                         'producto': producto.id,
                         'movimiento': "",
                         'preciov': producto.precioVenta,
                         'nombre': producto.nombre,
-                        'cantidad': cantidad,
+                        'cantidadM': cantidadM
                     });
-
             $scope.listaCarrito = productos;
+           
             console.log($scope.listaCarrito);
         };
 
+       $scope.cambiarValor = function  (index) {
+           console.log(index)
+        var cantidad = $scope.Detallemovimiento[index].cantidad;
+        $scope.Detallemovimiento[index].cantidad= $("#cantidad"+index).val(); 
+        //$scope.listaCarrito[index].cantidad= $("#cantidad"+index).val(); 
+        };
+       
+        $scope.cambiarValorM = function  (index) {
+           console.log(index)
+        var cantidadM = $scope.listaCarrito[index].cantidadM;
+        $scope.listaCarrito[index].cantidadM= $("#cantidadM"+index).val(); 
+        //$scope.listaCarrito[index].cantidad= $("#cantidad"+index).val(); 
+        };
         $scope.tipomoviento = function() {
             var tipo = $("#movimiento").val();
             switch (tipo) {
@@ -147,6 +237,13 @@ app.controller('inventarioController', ['$scope', '$http', function($scope, $htt
                     $("#bodega").attr('disabled', false);
                     $("#proveedor").attr('disabled', false);
                     break;
+                case "ENTRADA (AL)":
+                    dato = "E";
+                    $("#traslado").attr('disabled', true);
+                    $("#bodega").attr('disabled', false);
+                    $("#proveedor").attr('disabled', false);
+                    break;
+                    
                 case"ENTRADA (DEVOLUCION)":
                     dato = "E";
                     $scope.movimiento.proveedor = 0;
@@ -160,7 +257,6 @@ app.controller('inventarioController', ['$scope', '$http', function($scope, $htt
                     $("#traslado").attr('disabled', true);
                     $("#proveedor").attr('disabled', true);
                     $("#bodega").attr('disabled', false);
-
                     break;
                 case"TRASLADO  (ALMACEN)":
                     dato = "T";
@@ -168,6 +264,13 @@ app.controller('inventarioController', ['$scope', '$http', function($scope, $htt
                     $("#traslado").attr('disabled', false);
                     $("#bodega").attr('disabled', true);
                     $("#proveedor").attr('disabled', true);
+                    break;
+                    case"TRASLADO  (AB)":
+                    dato = "E";
+                    $scope.movimiento.proveedor = 0;
+                    $("#traslado").attr('disabled', true);
+                    $("#proveedor").attr('disabled', true);
+                    $("#bodega").attr('disabled', false);
                     break;
                 case"TRASLADO  (CAMIONETA)":
                     dato = "T";
@@ -301,7 +404,10 @@ app.controller('inventarioController', ['$scope', '$http', function($scope, $htt
             jQuery('#div-test').hide();
             var dto = '<table style="width:700px;font-family:"Courier New";font-size:2px">';
             dto += '<tr>';
-            dto += '<td style="text-align:center;font-weight:bold;font.size:16px">INVERSIONES - CREDIMAR - S.A.S</td>';
+            dto += '<td style="text-align:center;font-weight:bold;font.size:16px">INVERSIONES - CREDIMAR - A.S</td>';
+            dto += '</tr>';
+            dto += '<tr>';
+            dto += '<td style="text-align:center;font-weight:bold;font.size:16px">Codigo de remisión : ' + $scope.movimiento.id_movimiento + '</td>';
             dto += '</tr>';
             dto += '</table>';
 
@@ -352,7 +458,7 @@ app.controller('inventarioController', ['$scope', '$http', function($scope, $htt
                 dto += '<tr>';
                 dto += '<td style="text-align:left">' + item.nombre + '</td>';
                 dto += '<td style="text-align:left"></td>';
-                dto += '<td style="text-align:right">' + item.cantidad + '  Und.</td> ';
+                dto += '<td style="text-align:right">' + item.cantidadM + '  Und.</td> ';
                 dto += '</tr>';
             });
             dto += '</table>';
@@ -385,7 +491,59 @@ app.controller('inventarioController', ['$scope', '$http', function($scope, $htt
             mywindow.close();
         };
 
+        $scope.modificar = function(item, producto,cantidad) {
+            switch (tipo) {
+                case 0:
+                    var obj = {
+                        'movimiento': item,
+                        'producto': producto,
+                        'cantidad': cantidad,
+                    };
+                    alert(JSON.stringify(obj));
+                    $scope.Update.producto = producto;
+                    if (cantidad <= 0 || cantidad=="")
+                    {
+                        toastr["error"]("el valor digitado es menor o igual ha 0 verifique por favor, o el campo");
+                    }
+                    else
+                    {
+                        $http.put(uri + '/api/movimientos/Updateentrada/EntradaUpd', obj)
+                                .success(function(respuesta) {
+                                    toastr["success"](respuesta.message);
+                                    $("#Movimientomodal").modal('hide');
+                                    setTimeout(function (){location.reload()},1500);
+                                });
+                    }
 
 
+                    break;
+
+                case 1:
+                    var obj = {
+                        'movimiento': item,
+                        'producto_t': producto,
+                        'cantidad_t': cantidad,
+                    };
+                    
+                    if (cantidad <= 0 || cantidad=="")
+                    {
+                        toastr["error"]("el valor digitado es menor o igual ha 0 verifique por favor");
+                    }
+                    else
+                    {
+                    $scope.Update.producto = producto;
+                    $http.put(uri + '/api/movimientos/TrasladosUp/TrasladosUp', obj)
+                            .success(function(respuesta) {
+                                toastr["success"](respuesta.message);
+                                $("#Movimientomodal").modal('hide');
+                                setTimeout(function (){location.reload()},1500);
+                            });
+                    }
+                    break;
+            }
+
+        };
+     
     }]);
 
+    

@@ -36,12 +36,16 @@
                     <a href="#/home"><i class="fa fa-home"></i> <span class="nav-label">inicio</span></a>
   
                 </li>
-                <li class="item">
+                 <li class="item">
                     <a href="#/ventas"><i class="fa fa-shopping-cart"></i> <span class="nav-label">Ventas</span></a>
                 </li>
-                <li class="item">
-                    <a href="#/recaudo"><i class="fa fa-briefcase"></i> <span class="nav-label">Recaudo</span></a>
-                </li>
+                
+                <li>
+                       <a href="index-2.html"><i class="fa fa-briefcase"></i> <span class="nav-label">Recaudo</span> <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="#/recaudo">Gestion de recaudo</a></li>
+                        </ul>
+                    </li>
                 <li class="item">
                     <a href="#/inventario"><i class="fa fa-tasks"></i> <span class="nav-label">Inventario</span></a>
                 </li>
@@ -54,11 +58,13 @@
                 <li class="item">
                     <a href="#/productos"><i class="fa fa-archive"></i> <span class="nav-label">Productos</span></a>
                 </li>
-                <li class="item">
-                    <a><i class="fa fa-calendar-o"></i> <span class="nav-label">Reportes</span></a>
-                    <ul class="nav nav-second-level collapse in">
-                            <li class="item"><a href="#/Rinventario">Inventario</a></li>
+                <li>
+                <a href="index-2.html"><i class="fa fa-calendar"></i> <span class="nav-label">Reportes</span> <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                           <li class="item"><a href="#/Rinventario">Inventario</a></li>
                             <li><a href="#/Ventas">Ventas</a></li>
+                            <li><a href="#/recaudo/reporte">Recaudo</a></li>
+                            <li><a href="#/recaudo/reporteV">Pagos-vencidos</a></li>
                         </ul>
                 </li>
                 <li class="item">
@@ -133,6 +139,7 @@
     <!-- Custom and plugin javascript -->
     <script src="../js/inspinia.js"></script>
     <script src="../js/plugins/pace/pace.min.js"></script>
+    
 
     <!-- Sparkline -->
     <script src="../js/plugins/sparkline/jquery.sparkline.min.js"></script>
@@ -144,7 +151,8 @@
     <script src="../script/controllers/reporteController.js" type="text/javascript"></script>
     <script src="../script/controllers/ventasController.js" type="text/javascript"></script>
     <script src="../script/controllers/usuariosController.js" type="text/javascript"></script>
-     <script src="../script/controllers/recaudosController.js" type="text/javascript"></script>
+    <script src="../script/controllers/recaudosController.js" type="text/javascript"></script>
+    <script src="../script/controllers/FechasventasController.js" type="text/javascript"></script>
     <script>
           $(document).ready(function() {   
         $("body").removeClass("skin-2");

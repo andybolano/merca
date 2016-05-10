@@ -32,7 +32,8 @@ class ReporVentasController extends Controller
   public function getReportefechas($inicial,$final){
      try
     {
-       $consulta = DB::select(DB::raw("select TOTAL_VB,EXISTENTE,ENTRADA_C,TOTAL_T,TOTAL_DV,TOTAL_TA,fecha_movimiento,id,nombre
+       $consulta = DB::select(DB::raw("select
+        TOTAL_VB,EXISTENTE,ENTRADA_C,TOTAL_T,TOTAL_DV,TOTAL_TA,fecha_movimiento,id,nombre
         from reportentrada_compra
         left join reportentrada_cami on producto = producto_ec
         left join reportedevolucion on producto_v = producto
@@ -48,5 +49,53 @@ class ReporVentasController extends Controller
         echo $exc->getTraceAsString();
     } 
   }
+
+    public function getReporventaf($inicial,$final){
+     try
+    {
+       $consulta = DB::select(DB::raw("select ventas.id,ventas.fecha,ventas.abono,ventas.total,ventas.descuento,ventas.ESTADO,ventas.formaPago,ventas.descuentoValor,
+        clientes.nombre,clientes.apellidos,clientes.telefono,clientes.direccion,clientes.barrio,clientes.ciudad
+        from ventas 
+        inner join clientes on clientes.id = cliente
+        where fecha  between '$inicial' and '$final' and ESTADO='VIGENTE'"));
+        return $consulta;
+    } 
+    catch (Exception $exc) {
+        echo $exc->getTraceAsString();
+    } 
+  }
+  
+   public function getdetalleventa($id){
+     try
+    {
+       $consulta = DB::select(DB::raw("SELECT cantidad,precio,total,nombre,
+           idVenta FROM mercamar.ventasproducto 
+            inner join productos on idproducto = productos.id
+            where idVenta='$id'"));
+        return $consulta;
+    } 
+    catch (Exception $exc) {
+        echo $exc->getTraceAsString();
+    } 
+  }
+  
+   public function getvencidos($inicial,$final){
+     try
+    {
+       $consulta = DB::select(DB::raw("select ventas.cliente,ventas.id,nombre,apellidos,
+        fechapagos.fecha,idCuota,direccion, fechapagos.estado,valorCuotas,barrio,ciudad
+        from ventas 
+        inner join clientes on clientes.id=cliente
+        inner join fechapagos on ventas.id = idVenta
+        WHERE fechapagos.fecha BETWEEN '$inicial' AND '$final' and fechapagos.estado='PENDIENTE' and ventas.estado='VIGENTE'
+         and ventas.formaPago='CREDITO' or ventas.formaPago='CREDI-CONTADO'"));
+        return $consulta;
+    } 
+    catch (Exception $exc) {
+        echo $exc->getTraceAsString();
+    } 
+  }
+  
+  
   
 }

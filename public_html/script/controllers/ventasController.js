@@ -1,7 +1,7 @@
 app.controller('ventasController',['$scope','$http', function ($scope,$http){
-        
-        $scope.listaProductos = {};
+        $("#factura").hide();
         var TOTAL_BODEGA=0;
+        $scope.listaProductos = {};
         $scope.listaCarrito= [];
         $scope.cantidad = 1;
         $scope.total=0;
@@ -12,7 +12,7 @@ app.controller('ventasController',['$scope','$http', function ($scope,$http){
          $scope.cuotas.descuento= 0;
          $scope.cuotas.abono = 0;
          $scope.cliente = {};
-         
+         $scope.listamovimiento = {};
          
           Date.prototype.toDateInputValue = (function() {
                 var local = new Date(this);
@@ -55,6 +55,7 @@ app.controller('ventasController',['$scope','$http', function ($scope,$http){
             });
         };
         
+        
         $scope.addCart = function(producto){
      
         for (var i = 0; i < $scope.listaCarrito.length; i++) {
@@ -79,10 +80,19 @@ app.controller('ventasController',['$scope','$http', function ($scope,$http){
          $scope.calcularTotal();
       
         };
+      
+        $scope.cambiarValor = function  (index) {
+        var cantidad = $scope.listaCarrito[index].cantidad;
+        $scope.listaCarrito[index].subtotal = $("#valor"+index).val() * cantidad; 
+        $scope.listaCarrito[index].precio= $("#valor"+index).val(); 
+        $scope.calcularTotal();
+        };
+        
         
         $scope.cambiarCantidad = function  (index) {
         var precio = $scope.listaCarrito[index].precio;
-        $scope.listaCarrito[index].subtotal = $("#cantidad"+index).val() * precio;  
+        $scope.listaCarrito[index].subtotal = $("#cantidad"+index).val() * precio; 
+        $scope.listaCarrito[index].cantidad= $("#cantidad"+index).val(); 
         $scope.calcularTotal();
         };
         
@@ -109,9 +119,9 @@ app.controller('ventasController',['$scope','$http', function ($scope,$http){
             
             
             if($scope.cuotas.mes == 3){
-                $scope.cuotas.descuento = 35;
+                $scope.cuotas.descuento = 0;
             }else if($scope.cuotas.mes == 6){
-                $scope.cuotas.descuento = 25;
+                $scope.cuotas.descuento =0;
             }else{
                $scope.cuotas.descuento = 0;
             }
@@ -145,10 +155,27 @@ app.controller('ventasController',['$scope','$http', function ($scope,$http){
         };
         
         $scope.registrarVenta = function(){
+            
+            $scope.fechasPago = [];
+             var fecha;
+           
+                
+           if($scope.cliente.id == undefined){
+               toastr["warning"]("A que cliente le realizara la venta?");
+           }else{   
+                
+           for(i=1; i<=$scope.cuotas.mes; i++){
+                fecha = sumaFecha(30*i,$('#fechaCompra').val());
+                $scope.fechasPago.push({id:i,fecha:fecha})
+           }
+      
+      
+     
             var object = {
                 cliente: $scope.cliente.id,
                 fecha:$('#fechaCompra').val(),
                 formaPago : $('#formaPago').val(),
+                movimiento : $('#movimiento').val(),
                 tiempoPago: $scope.cuotas.mes,
                 descuento:$scope.cuotas.descuento,
                 descuentoValor:$scope.cuotas.descuentoValor,
@@ -157,21 +184,112 @@ app.controller('ventasController',['$scope','$http', function ($scope,$http){
                 total: $scope.grantotal-$scope.cuotas.descuentoValor,
                 numeroCuotas:$scope.cuotas.mes,
                 valorCuotas:$scope.cuotas.valor,
-                productos: JSON.stringify($scope.listaCarrito)
+                productos: JSON.stringify($scope.listaCarrito),
+                fechasPagos:JSON.stringify($scope.fechasPago)
             };
+            console.log(object);
+           /******PRINT**********************/
+            $('#fechaCompra_r').html($('#fechaCompra').val());
+            $('#cliente_r').html($scope.cliente.nombre+" "+$scope.cliente.apellidos);
+            $('#cedula_r').html($scope.cliente.cedula);
+            $('#telefono_r').html($scope.cliente.telefono);
+            $('#direccion_r').html($scope.cliente.direccion);
             
-             $http.post(uri+'/api/ventas',object).success(function (respuesta){
-                swal({   title: "Buen Trabajo!",   text:respuesta.message,   timer: 3000,   showConfirmButton: false });
-                  setTimeout("location.reload()", 3000);
+            $http.post(uri+'/api/ventas',object).success(function (respuesta){
+              $('#codigo_r').html(respuesta.request);
+              console.log(respuesta.request);
+              imprimir();
+              swal({   title: "Buen Trabajo!",   text:respuesta.message,   timer: 2000,   showConfirmButton: false });
+              setTimeout("location.reload()", 2000);
             });
             
           
             
-            
+           }
             
          };
+         
+         sumaFecha = function(d, fecha)
+                {    
+                 fecha = new Date(fecha);
+                 fecha.setDate(fecha.getDate()+parseInt(d));
+                 var anno=fecha.getFullYear();
+                 var mes= fecha.getMonth()+1;
+                 var dia= fecha.getDate();
+                 mes = (mes < 10) ? ("0" + mes) : mes;
+                 dia = (dia < 10) ? ("0" + dia) : dia;
+                 var fechaFinal = anno+"-"+mes+"-"+dia;
+                 return (fechaFinal);
+                 }
         
+         function imprimir() {
+      
+        var data = jQuery('#factura').html();
+        var mywindow = window.open('', 'Factura de Compra Credimar');
+        mywindow.document.write('<html><head><title>Factura de Compra Credimar</title>');
+        mywindow.document.write(' <link href="../css/impresion.css" rel="stylesheet" type="text/css" media="print"/>');
+        mywindow.document.write(data);
+        mywindow.document.write('</body></html>');
+        setTimeout(function() {
+            mywindow.print();
+
+            mywindow.close();
+
+
+            location.reload();
+        }, 250);
+
+    }
+    
+    
+        $scope.reporfecha = function (){
+           $scope.movimiento.consulta = 4;
+           var  dato={}
+            dato.inicial=$scope.movimiento.inicial;
+            dato.final=$scope.movimiento.final;
+            
+            var inic= new Date(dato.inicial);
+            var dc = inic.getDate();
+            var mc = inic.getMonth()+1; //hoy es 0!
+            var yc = inic.getFullYear();
+
+            if(dc<10) {
+                dc='0'+dc;
+            } 
+
+            if(mc<10) {
+                mc='0'+mc;
+            } 
+           var inicial = yc+'-'+mc+'-'+dc;
+      
+           var fin= new Date(dato.final);
+            var dcf = fin.getDate();
+            var mcf = fin.getMonth()+1; //hoy es 0!
+            var ycf = fin.getFullYear();
+
+            if(dcf<10) {
+                dcf='0'+dcf;
+            } 
+
+            if(mcf<10) {
+                mcf='0'+mcf;
+            } 
+           var final = ycf+'-'+mcf+'-'+dcf;
+           
+          
+            $http.get(uri + '/api/ventas/ventastot/'+inicial+'/'+final).success(function(respuesta) {
+                $scope.listamovimiento = respuesta;
+                console.log($scope.listamovimiento);
+                $scope.bodega=true;
+                $scope.almacen=false;
+                $scope.camioneta=false;
         
+                angular.forEach($scope.listamovimiento, function(item, i) {
+
+                });
+              
+            });
+        };
 
        
     }]); 

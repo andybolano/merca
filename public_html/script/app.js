@@ -32,13 +32,18 @@ var app;
                         templateUrl: 'reportes/index.html'
                     })
                     .when("/Ventas",{
-                        templateUrl: 'reportes/index.html'
+                        templateUrl: 'reportes/index_2.html'
                     })
-                    
+                     .when("/recaudo/reporte",{
+                        templateUrl: 'reportes/reportes.html'
+                    })
+                     .when("/recaudo/reporteV",{
+                        templateUrl: 'reportes/Pagos_vencidos.html'
+                    })
                     .when("/clientes",{
                         templateUrl: 'cliente/index.html'
                     })
-                    .when("/seguridad",{
+                     .when("/seguridad",{
                         templateUrl: 'seguridad/index.html'
                     })
                     .otherwise({

@@ -54,7 +54,7 @@ class movimientosEController extends Controller
             {   $movimiento = new movimientoE();
                 $movimiento->movimiento = $value["movimiento"];
                 $movimiento->producto=$value["producto"];
-                $movimiento->cantidad=$value["cantidad"];
+                $movimiento->cantidad=$value["cantidadM"];
                 $movimiento->estado_e= "C";
                 $movimiento->save();
             }

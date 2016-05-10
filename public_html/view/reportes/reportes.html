@@ -1,13 +1,30 @@
-<div class="row" ng-controller="recaudosController" data-ng-init="getVentas()" >
+<div class="row" ng-controller="recaudosController">
     <div class="col-lg-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <div class="row">
-                    <div class="col-lg-9">
-                        <h2>Gestion de Recaudos</h2>
+                    <div class="col-lg-4">
+                        <h2>Reporte de Recaudos</h2>
                     </div>
+                        <div class='col-lg-5'>
+                            <table>
+                                <tr>
+                                    <td><div class="input-group"><label>Fecha Inicio</label>
+                                 <input type="date"  class="input-sm form-control" id='fechaInicio' > 
+                                        </div></td>
+                                        <td>
+                                            <div class="input-group" style='margin-left:10px;'><label>Fecha Fin</label><input type="date"  class="input-sm form-control" id='fechaFin'>
+                                    </div>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-primary" style='margin-top:28px;' ng-click='getByFechas();'><i class="fa fa-search"></i></button> 
+                                        </td>
+                                </tr>
+                            </table>
+                        </div>
+               
                     <div class="col-lg-3">
-                        <div class="input-group"><input type="text" placeholder="Buscador" class="input-sm form-control"  ng-model="filtro"> <span class="input-group-btn">
+                        <div class="input-group" style='margin-top:30px;'><input type="text" placeholder="Buscador" class="input-sm form-control"  ng-model="filtro"> <span class="input-group-btn">
                                 <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-search"></i></button> </span></div>
                     </div>
                 </div>
@@ -19,56 +36,38 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Factura #</th>
                                 <th>Cedula</th>
-                                <th>Cliente</th>
-                                <th>Fecha</th>
-                                <th>Forma de Pago</th>
-                                <th>Valor inicial</th>
-                                <th>Abono</th>
-                                <th>Subtotal</th>
-                                <th>Descuento</th>
-                                <th>Total</th>
-                                <th>Nº Cuotas</th>
-                                <th>Valor Cuotas</th>
-                                <th>Saldo</th>
-                                <th colspan="3" style="text-align: center">Acciones</th>
+                                <th>Nombres</th>
+                                <th>Factura #</th>
+                                 <th>Fecha</th>
+                                 <th>Fecha Limite</th>
+                                 <th>Recaudo #</th>
+                                <th>valor</th>
+                                <th>ver +</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in Ventas| filter: filtro | orderBy:'-idventa'">
-                                <td>{{item.idventa}}</td>
+                            <tr ng-repeat="item in Recaudos | filter: filtro | orderBy:'-id'">
                                 <td>{{item.cedula}}</td>
-                                <td>{{item.nombre}} {{item.apellidos}}</td>
+                                <td>{{item.nombre}}  {{item.apellidos}}</td>
+                                <td>{{item.num_factura}}</td>
                                 <td>{{item.fecha}}</td>
-                                <td>{{item.formaPago}}</td>
-                                <td><span class="label label-warning-light pull-right" style="font-size: 12px;">{{item.abono + item.subtotal| currency}}</span></td>
-                                <td>{{item.abono| currency}}</td>
-                                <td>{{item.subtotal| currency}}</td>
-                                <td>{{item.descuento}} % = {{item.descuentoValor| currency}}</td>
-                                <td><span class="label label-success pull-right" style="font-size: 12px;">{{item.total| currency }}</span></td>
-                                <td>{{item.numeroCuotas}}</td>
-                                <td>{{item.valorCuotas| currency }}</td>
-                                <td><span class="label label-danger pull-right" style="font-size: 12px;">{{item.saldo| currency}}</span></td>
-                                <td style="text-align: center">
+                                <td>{{item.fechaLimite}}</td>
+                                <td>{{item.id}}</td>
+                                <td>{{item.valor | currency}}</td>
+                                 <td style="text-align: center">
                                     <a href="javasrcritp:;"  title="Ver Venta" data-toggle="modal"  ng-click="showVenta(item)"><i class="fa fa-eye" style="font-size:20px;color:#1A7BB9;"></i></a>
                                 </td>
-                                <td style="text-align: center">
-                                    <a href="javasrcritp:;"  title="Anular venta" data-toggle="modal"  ng-click="deleteVenta(item)"><i class="fa fa-close" style="font-size:20px;color:red;"></i></a>
-                                </td>
-                                <td style="text-align: center">
-                                    <a href="javasrcritp:;"  title="Modificar Venta"   ng-click="getVentasD(item)"><i class="fa fa-edit" style="font-size:20px;color:#F8AC59;"></i></a>
-                                </td>
-                                 
                             </tr>
                         </tbody>
                     </table>
+                    <h2 style='font-weight:900'>TOTAL: {{recaudo_total | currency}}</h2>
                 </div>
             </div>
         </div>
     </div>
-
-    <div id="detalleVenta" class="modal inmodal in fade" role="dialog">
+    
+     <div id="detalleVenta" class="modal inmodal in fade" role="dialog">
         <div class="modal-dialog modal-lg" style="width:100%;">
 
             <!-- Modal content-->
@@ -206,7 +205,7 @@
                             <div id="tab-2" class="tab-pane">
                                 <div class="panel-body">
                                     <div class="row">
-                                        <div class="col-lg-3">
+                                        <div class="col-lg-4">
                                             <div class="table-responsive"  style="height: 400px;">
                                                 <h4><i class="fa fa-calendar" style="font-size:18px;"></i>&nbsp;&nbsp;Fechas de pago</h4>
                                                 <input type="hidden" value="" id="id_fechaLimite">
@@ -231,7 +230,7 @@
                                                     </table>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4">
+                                        <!--<div class="col-lg-4">
                                             <div class="table-responsive">
                                                 <h4><i class="fa fa-money" style="font-size:18px;"></i>&nbsp;&nbsp;Ingreso de pago</h4>
                                                 <table class="table">
@@ -258,8 +257,8 @@
 
                                                 </table>
                                                 </div>
-                                            </div>
-                                        <div class="col-lg-5">
+                                            </div>-->
+                                        <div class="col-lg-8">
                                             <div class="table-responsive">
                                                 <h4><i class="fa fa-line-chart" style="font-size:18px;"></i>&nbsp;&nbsp;Historial de pago</h4>
                                             </div>
@@ -302,80 +301,7 @@
             </div>
         </div>
     
-    <div id="Venta" class="modal inmodal in fade" role="dialog">
-        <div class="modal-dialog modal-lg">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Detalle de Venta</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="tabs-container">
-                        <ul class="nav nav-tabs">
-                            <li id="t1" class="active"><a data-toggle="tab" href="javascript:;" aria-expanded="true">Detalle de Venta</a></li>
-                        </ul>
-                        <div class="tab-content">
-                            <div id="tab-1" class="tab-pane active">
-                                <div class="panel-body">
-                                    <div class="row">
-                                     <table class="table">
-                               <tbody>
-                                     <tr>
-                                       <td width="50%">Factura:</td>
-                                       <td><input type="text" id="Factura" class="form-control" readonly=""></td>
-                                   </tr>
-                                   <tr>
-                                       <td width="50%">Fecha de Compra:</td>
-                                       <td><input type="date" id="fechaCompra" class="form-control"></td>
-                                   </tr>
-                                   <tr>
-                                       <td>Forma de Pago:</td>
-                                       <td><select class="form-control m-b" id="formaPago" name="account">
-                                               <option value="CONTADO">
-                                                   CONTADO
-                                               </option >
-                                                <option value="CREDITO">
-                                                    CREDITO
-                                               </option>
-                                                <option value="CREDI-CONTADO">
-                                                    CREDI-CONTADO
-                                               </option>
-                                           </select></td>
-                                   </tr>
-                                   <tr>
-                                       <td>Movimiento:</td>
-                                       <td><select class="form-control m-b" id="movimiento" name="account">
-                                                <option value="VA">
-                                                    VENTA DE ALMACEN
-                                               </option>
-                                               <option value="VB">
-                                                   VENTA DE BODEGA
-                                               </option >
-                                                <option value="VC">
-                                                    VENTA DE CAMIONETA
-                                               </option>
-                                           </select></td>
-                                   </tr>
-                               </tbody>
-                           </table>
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                    
-                    </div>
-               
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" ng-click="modificqrventa()">Actualizar</button>
-                    <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-            </div>
-        </div>
-    </div>
+</div>
 
 <script>
     function tab(id) {
@@ -392,4 +318,5 @@
         }
     }
 </script>
-<!----294.000---->
+
+    

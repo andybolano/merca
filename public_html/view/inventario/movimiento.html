@@ -48,13 +48,17 @@
                                <th width="20px">
                                    Cantidad
                                </th>
+                               <th>
+                                   
+                               </th>
                                </thead>
                                <tbody>
                                    <tr ng-repeat="item in listaCarrito">
                                        <td>{{item.producto}}</td>
                                          <td>{{item.nombre}}</td>
-                                         <td style="text-align: center;">{{item.cantidad}}</td>
+                                         <td style="text-align: center;"><input  style="width:50px" type="number" id="cantidadM{{$index}}" value="{{item.cantidadM}}" ng-keyup="cambiarValorM($index)"></td>
                                          <td></td>
+                                         <td><a href="javascript:;" ng-click="sacarCarrito($index)"><i class="fa fa-minus-square" style="font-size:18px;color:red;"></i></a></td>
                                    </tr>
                                </tbody>
                            </table>
@@ -95,6 +99,12 @@
                                                </option>
                                                <option value="TRASLADO  (CAMIONETA)">
                                                     TRASLADO  (CAMIONETA)
+                                               </option>
+                                                <option value="TRASLADO  (AB)">
+                                                    TRASLADO (ALMACEN-BODEGA)
+                                               </option>
+                                               <option value="ENTRADA (AL)">
+                                                    ENTRADA (COMPRA ALMACEN)
                                                </option>
                                            </select>
                                        </td>

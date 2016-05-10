@@ -54,12 +54,8 @@
                                     <a href="javasrcritp:;"  title="Ver Venta" data-toggle="modal"  ng-click="showVenta(item)"><i class="fa fa-eye" style="font-size:20px;color:#1A7BB9;"></i></a>
                                 </td>
                                 <td style="text-align: center">
-                                    <a href="javasrcritp:;"  title="Anular venta" data-toggle="modal"  ng-click="deleteVenta(item)"><i class="fa fa-close" style="font-size:20px;color:red;"></i></a>
+                                    <a href="javasrcritp:;"  title="Anular Venta" data-toggle="modal"  ng-click="deleteVenta(item)"><i class="fa fa-close" style="font-size:20px;color:red;"></i></a>
                                 </td>
-                                <td style="text-align: center">
-                                    <a href="javasrcritp:;"  title="Modificar Venta"   ng-click="getVentasD(item)"><i class="fa fa-edit" style="font-size:20px;color:#F8AC59;"></i></a>
-                                </td>
-                                 
                             </tr>
                         </tbody>
                     </table>
@@ -296,80 +292,6 @@
                     </div>
                
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-            </div>
-        </div>
-    
-    <div id="Venta" class="modal inmodal in fade" role="dialog">
-        <div class="modal-dialog modal-lg">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Detalle de Venta</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="tabs-container">
-                        <ul class="nav nav-tabs">
-                            <li id="t1" class="active"><a data-toggle="tab" href="javascript:;" aria-expanded="true">Detalle de Venta</a></li>
-                        </ul>
-                        <div class="tab-content">
-                            <div id="tab-1" class="tab-pane active">
-                                <div class="panel-body">
-                                    <div class="row">
-                                     <table class="table">
-                               <tbody>
-                                     <tr>
-                                       <td width="50%">Factura:</td>
-                                       <td><input type="text" id="Factura" class="form-control" readonly=""></td>
-                                   </tr>
-                                   <tr>
-                                       <td width="50%">Fecha de Compra:</td>
-                                       <td><input type="date" id="fechaCompra" class="form-control"></td>
-                                   </tr>
-                                   <tr>
-                                       <td>Forma de Pago:</td>
-                                       <td><select class="form-control m-b" id="formaPago" name="account">
-                                               <option value="CONTADO">
-                                                   CONTADO
-                                               </option >
-                                                <option value="CREDITO">
-                                                    CREDITO
-                                               </option>
-                                                <option value="CREDI-CONTADO">
-                                                    CREDI-CONTADO
-                                               </option>
-                                           </select></td>
-                                   </tr>
-                                   <tr>
-                                       <td>Movimiento:</td>
-                                       <td><select class="form-control m-b" id="movimiento" name="account">
-                                                <option value="VA">
-                                                    VENTA DE ALMACEN
-                                               </option>
-                                               <option value="VB">
-                                                   VENTA DE BODEGA
-                                               </option >
-                                                <option value="VC">
-                                                    VENTA DE CAMIONETA
-                                               </option>
-                                           </select></td>
-                                   </tr>
-                               </tbody>
-                           </table>
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                    
-                    </div>
-               
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" ng-click="modificqrventa()">Actualizar</button>
                     <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>

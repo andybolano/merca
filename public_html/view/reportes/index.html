@@ -6,7 +6,8 @@
                     <div class="col-lg-7">
                         <h2>Reportes de inventario</h2>
                     </div>
-
+ <div class="input-group"><input type="text" placeholder="Buscador" class="input-sm form-control"  ng-model="filtro"> <span class="input-group-btn">
+                                <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-search"></i></button> </span></div>
                 </div>
                 <div class="hr-line-dashed"></div>
             </div>
@@ -43,6 +44,7 @@
                     </div>
                     <div class="col-lg-2" style="float: left;padding-top: 22px">
                         <button class="btn btn-success" title="Cargar datos" id="actualizar" ng-click="reporfecha();"><i class="fa fa-search"></i></button>
+                        <button class="btn btn-primary" title="Generar Reporte" id="actualizar" ng-click="imprimir();"><i class="fa fa-print"></i></button>
                     </div>
                 </div>
                  <div class="table-responsive" ng-show="bodega">
@@ -50,30 +52,31 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                
+                                <th>Articulo</th>
                                 <th>Existencia</th>
                                 <th>Ing. compra</th>
                                 <th style="text-align: center">Devoluciones</th>
                                 <th style="text-align: center">Ent. camioneta</th>
                                 <th style="text-align: center">Tras. camioneta</th>
                                 <th style="text-align: center">Tras. alamacen</th>
+                                <th style="text-align: center">Tras. alamacen-bodega</th>
                                 <th style="text-align: center">Ventas bodega</th>
-                                <th>Articulo</th>
                                 <th>Fecha</th>
                                 
                             </tr>
                         </thead>
                         <tbody>
-                            <tr style="background-color: transparent" ng-repeat="item in listamovimiento">
+                            <tr style="background-color: transparent" ng-repeat="item in listamovimiento | filter: filtro">
                                 <td></td>
+                                <td>{{item.nombre}}</td>
                                 <td style="color: #d2322d">{{item.TOTAL_BODEGA}}</td>
                                 <td style="color: #090">{{item.EXISTENTE}}</td>
                                 <td style="text-align: center">{{item.TOTAL_DV}}</td>
                                 <td style="text-align: center">{{item.ENTRADA_C}}</td>
                                 <td style="text-align: center">{{item.TOTAL_T}}</td>
                                 <td style="text-align: center">{{item.TOTAL_TA}}</td>
+                                <td style="text-align: center">{{item.TOTAL_BA}}</td>
                                 <td style="text-align: center">{{item.TOTAL_VB}}</td>
-                                <td>{{item.nombre}}</td>
                                 <td>{{item.fecha_movimiento}}</td>
                             </tr>
                         </tbody>
@@ -85,21 +88,25 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th style="text-align: left">Existencia almacen</th>
-                                <th style="color:#090;text-align: center">Total trasladado</th>
-                                <th style="text-align: center">Total ventas </th>
                                 <th>Articulo</th>
+                                <th style="color:#d2322d;text-align: left">Existencia</th>
+                                <th style="color:#00c;text-align: left">Entrada compra</th>
+                                <th style="color:#090;text-align: left">Total trasladado</th>
+                                <th style="color:#6188e2;text-align: left">Traslado almacen bodega</th>
+                                <th style="text-align: center">Total ventas </th>
                                 <th>Fecha</th>
                                 
                             </tr>
                         </thead>
                         <tbody>
-                            <tr style="background-color: transparent" ng-repeat="item in listamovimiento">
+                            <tr style="background-color: transparent" ng-repeat="item in listamovimiento | filter: filtro">
                                 <td></td>
-                                <td style="text-align: left">{{item.EXISTENCIA_A}}</td>
-                                <td style="color:#090;text-align: center">{{item.TOTAL_TA}}</td>
-                                <td style="text-align: center">{{item.TOTAL_VA}}</td>
                                 <td>{{item.nombre}}</td>
+                                <td style="color:#d2322d;text-align: left">{{item.EXISTENCIA_A}}</td>
+                                <td style="color:#00c;text-align: center">{{item.ENTRADA_CAM}}</td>
+                                <td style="color:#090;text-align: center">{{item.TOTAL_TA}}</td>
+                                <td style="color:#6188e2;text-align: center">{{item.TOTAL_BA}}</td>
+                                <td style="text-align: center">{{item.TOTAL_VA}}</td>
                                 <td>{{item.fecha_movimiento}}</td>
                             </tr>
                         </tbody>
@@ -111,21 +118,23 @@
                         <thead>
                             <tr>
                                 <th></th>
+                                <th>Articulo</th>
                                 <th style="text-align: left">Trasladado</th>
+                                <th style="text-align: left">Entradas</th>
                                 <th style="text-align: left">Ventas camioneta</th>
                                 <th style="text-align: center">Existencia</th>
-                                <th>Articulo</th>
                                 <th>Fecha</th>
                                 
                             </tr>
                         </thead>
                         <tbody>
-                            <tr style="background-color: transparent" ng-repeat="item in listamovimientocami">
+                            <tr style="background-color: transparent" ng-repeat="item in listamovimientocami | filter: filtro">
                                 <td></td>
+                                <td>{{item.NOMBRE}}</td>
                                 <td style="text-align: left;color:#d2322d;">{{item.TOTAL_T}}</td>
+                                <td style="text-align: left;color:#d2322d;">{{item.ENTRADA_C}}</td>
                                 <td style="text-align: left">{{item.TOTAL_VCA}}</td>
                                 <td style="text-align: center; color:#090;">{{item.TOTAL_CAMIONETA}}</td>
-                                <td>{{item.NOMBRE}}</td>
                                 <td>{{item.fecha_movimiento}}</td>
                             </tr>
                         </tbody>
@@ -158,3 +167,5 @@
         </div>
     </div>
 </div>
+
+<di id="div-test"></di>

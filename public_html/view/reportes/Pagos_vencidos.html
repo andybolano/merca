@@ -1,0 +1,68 @@
+<div class="row" ng-controller="FechasventasController">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <h2>Pagos vencidos</h2>
+                    </div>
+
+                </div>
+                <div class="hr-line-dashed"></div>
+            </div>
+
+            <div class="ibox-content">
+                <div class="row">
+
+                    <div class="form-group col-lg-3">
+                        <label>Fecha de inicial</label>
+                        <div class="input-group date">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span><input type="date" class="form-control" ng-model="movimiento.inicial">
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label>Fecha final</label>
+                        <div class="input-group date">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span><input type="date" class="form-control" ng-model="movimiento.final">
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-2" style="float: left;padding-top: 22px">
+                        <button class="btn btn-success" title="Cargar datos" id="actualizar" ng-click="Pagosvencidos();"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+                 <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Cliente</th>
+                                <th>Fecha de pago</th>
+                                <th>Valor a pagar</th>
+                                <th style="text-align: center">Cuidad</th>
+                                <th>estado de pago</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: transparent" ng-repeat="item in listapagos">
+                                <td></td>
+                                <td>{{item.nombre}} {{item.apellidos}}</td>
+                                <td>{{item.fecha}}</td>
+                                <td style="color: #d2322d">{{item.valorCuotas | currency}}</td>
+                                <td style="text-align: center">{{item.direccion}} - {{item.barrio}} - {{item.ciudad}}</td>
+                                <td style="color: red">{{item.estado}}</td>                                
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

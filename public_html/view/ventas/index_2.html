@@ -61,7 +61,7 @@
                                <tbody>
                                    <tr ng-repeat="item in listaCarrito">
                                          <td>{{item.nombre}}</td>
-                                         <td><input type="number" id="valor{{$index}}" value="{{item.precio}}" ng-keyup="cambiarValor($index)"></td>
+                                         <td>{{item.precio | currency}}</td>
                                          <td style="text-align: center;"><input type="number" style="width: 45px;"  value="1"  ng-keyup="cambiarCantidad($index)" id="cantidad{{$index}}"></td>
                                          <td>{{item.subtotal | currency}}</td>
                                           <td style="text-align: center;"><a href="javascript:;" ng-click="sacarCarrito($index)"><i class="fa fa-minus-square" style="font-size:18px;color:red;"></i></a></td>
@@ -248,26 +248,7 @@
                 </div>
                 <div class="input-group">
                     <label>Ciudad:</label>
-                    <select  ng-model="cliente.ciudad" class="input-sm form-control" >
-                        <option></option>
-                        <option>CODAZZI</option>
-                        <option>SAN DIEGO</option>
-                        <option>BECERRIL</option>
-                        <option>LA VICTORIA</option>
-                        <option>LA JAGUA</option>
-                        <option>EL DESASTRE</option>
-                        <option>LOS BRASILES</option>
-                        <option>LLERASCA</option>
-                        <option>PAILITAS</option>
-                        <option>RINCO HONDO</option>
-                        <option>LA LOMA</option>
-                        <option>CHIRIGUANA</option>
-                        <option>LA GLORIA</option>
-                        <option>VALLEDUPAR</option>
-                        <option>LA PAZ</option>
-                        <option>CURUMANI</option>
-                    </select>
-                    
+                    <input type="text"  ng-model="cliente.ciudad" class="input-sm form-control" >
                 </div>
                
             </div>
@@ -282,7 +263,7 @@
   </div>
 </div>
  
-        <div class="row" id="factura" style=''>
+    <div class="row" id="factura" style='display: none'>
         <div class="col-lg-7">
         <table border="1" style="border-collapse: collapse;border:1px solid #c3c3c3;">
             <tr>
@@ -294,7 +275,7 @@
             </tr> 
             <tr>
                 <td><table border="0"><tr><td>Fecha de remision:</td><td><div id="fechaCompra_r"></div></td></tr></table></td>
-                <td><table border="0"><tr><td>Remision N:</td><td><div id="codigo_r" style="background-color:#1e88e5;color:#FFF;font-weight:900;padding:8px;border-radius:5px; "></div></td></tr></table></td>
+                <td><table border="0"><tr><td>Remision Nº:</td><td><div id="codigo_r" style="background-color:#1e88e5;color:#FFF;font-weight:900;padding:8px;border-radius:5px; "></div></td></tr></table></td>
             </tr>
             <tr>
                 <td colspan="2"><table border="0"><tr><td>Señor(es):</td><td><div id="cliente_r"></div></td></tr></table></td>
@@ -322,20 +303,10 @@
                     <td style="text-align: right;">{{item.subtotal | currency}}</td>
                 </tr>
             </table>
-            <br><br><br>
-            <table width="100%" border="1" style="border-collapse: collapse;border:1px solid #c3c3c3;">
-                <tr>
-                    <td colspan="2" width="70%">Abono:</td>
-                    <td colspan="2" align="right">{{cuotas.abono | currency}}</td>
-                </tr>
-                <tr>
-                    <td colspan="2" width="70%">TOTAL:</td>
-                    <td colspan="2" align="right"> {{total | currency}}</td>
-                </tr>
-            </table>
         </div>
     </div>
             </div>
+
 
 
 

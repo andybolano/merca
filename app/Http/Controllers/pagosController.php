@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\venta;
 use App\Pagos;
+use App\fechaPagos;
 use DB;
 class PagosController extends Controller
 {
@@ -41,7 +42,30 @@ class PagosController extends Controller
       
          $result = DB::select(DB::raw(
                         "Select * from pagos
-                        WHERE  idVenta = $idventa"
+                        WHERE  idVenta = $idventa AND estado = 'VIGENTE' " 
+                    ));
+         
+         return $result;
+    }
+    
+    public function pagosByFecha($fechaInicio, $fechaFin){
+        
+        $result = DB::select(DB::raw(
+                        "Select  p.*, clientes.*, clientes.cedula, ventas.id as num_factura, ventas.*, p.idVenta as idventa from pagos  as p
+                        INNER JOIN ventas ON ventas.id = p.idVenta
+                        INNER JOIN  clientes ON clientes.id = ventas.cliente
+                     
+                        WHERE p.fecha BETWEEN '$fechaInicio' AND '$fechaFin' AND p.estado = 'VIGENTE' " 
+                    ));
+         
+         return $result;
+    }
+    
+     public function getPagosVentaFecha($idventa){
+      
+         $result = DB::select(DB::raw(
+                        "Select * from fechapagos
+                        WHERE  idVenta = $idventa" 
                     ));
          
          return $result;
@@ -60,9 +84,16 @@ class PagosController extends Controller
             $pago = new Pagos();
             $pago->valor = $data["valor"];
             $pago->fecha = $data["fecha"];
+            $pago->fechaLimite = $data["fechaLimite"];
             $pago->saldo= $data["saldo"];
             $pago->idVenta= $data["venta"];
+            $pago->estado = "VIGENTE";
             $pago->save();
+            
+        
+            $fechaPagos = FechaPagos::find($data["id_fechaLimite"]);
+            $fechaPagos->estado = "PAGADO";
+            $fechaPagos->save();
             
             $venta = venta::find($data["venta"]);
             $venta->saldo= $data["saldo"];
@@ -116,12 +147,26 @@ class PagosController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
+    public function eliminar(Request $request)
     {
-        try {
-            $pago = Pagos::find($id);
-            $pago->delete();
-            return JsonResponse::create(array('message' => "Pago  Eliminado Correctamente", "request" =>json_encode($id)), 200);
+      
+            try {
+                
+            $data = $request->all();
+            
+            $pago = pagos::find($data["id"]);
+            $pago->estado = "ANULADO";
+            $pago->save();
+            
+            $venta = venta::find($data["idVenta"]);
+            $venta->saldo= $data["saldo"];
+            $venta->save();
+            
+             DB::table('fechapagos')
+            ->where('fecha',$data["fecha"])
+            ->update(array('estado' => 'PENDIENTE'));
+          
+            return JsonResponse::create(array('message' => "Pago eliminado Correctamente", "request" => "true"), 200);
         } catch (Exception $ex) {
             return JsonResponse::create(array('message' => "No se pudo Eliminar el producto", "exception"=>$ex->getMessage(), "request" =>json_encode($id)), 401);
         }

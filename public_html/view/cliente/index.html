@@ -36,7 +36,28 @@
                             <td><input type="text" class="form-control" ng-model="Cliente.apellidos"></td>
                             <td><input type="text" class="form-control" ng-model="Cliente.direccion"></td>
                             <td><input type="text" class="form-control" ng-model="Cliente.barrio"></td>
-                            <td><input type="text" class="form-control" ng-model="Cliente.ciudad"></td>
+                            <td>
+                             <select  ng-model="cliente.ciudad" class="input-sm form-control" >
+                                <option></option>
+                                <option>CODAZZI</option>
+                                <option>SAN DIEGO</option>
+                                <option>BECERRIL</option>
+                                <option>LA VICTORIA</option>
+                                <option>LA JAGUA</option>
+                                <option>EL DESASTRE</option>
+                                <option>LOS BRASILES</option>
+                                <option>LLERASCA</option>
+                                <option>PAILITAS</option>
+                                <option>RINCO HONDO</option>
+                                <option>LA LOMA</option>
+                                <option>CHIRIGUANA</option>
+                                <option>LA GLORIA</option>
+                                <option>VALLEDUPAR</option>
+                                <option>LA PAZ</option>
+                                <option>CURUMANI</option>
+                          </select>
+                    
+                            </td>
                             <td><input type="text" class="form-control" ng-model="Cliente.telefono"></td>
                             <td>
                                 <button class="btn btn-primary" title="guardar" id="guardar" ng-click="guardar();"><i class="fa fa-save"></i></button>
