@@ -375,8 +375,72 @@
             </div>
             </div>
         </div>
+    
+     <div class="row" id="facturaAbono" style='display:none'>
+        <div class="col-lg-7">
+        <table border="1" style="border-collapse: collapse;border:1px solid #c3c3c3;">
+            <tr>
+                <td width="60%;" style="text-align: center"><img src="../images/logo.png" alt="" width="200px"/></td>
+                <td><p style="padding: 8px;font-size:11px;">Carrera 14 #7-93 - tel/cel: 301 643 77 81  - 301 354 332 47 Barrio Primero de Mayo<br>Agustin Codazzi - Cesar</p></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;"><p style="font-size:11px;padding-top:8px;padding-bottom:8px;">VENTA DE MUEBLES, NEVERAS, TELEVISORES, CAMAS, COLCHONES, LAVADORAS, ESTUFAS, ESCAPARATES, COMEDORES DE CONTADO Y CREDITO</p></td>
+            </tr> 
+            <tr>
+                <td colspan="2"><table border="0"><tr><td>Fecha de remision:</td><td></td></tr></table></td>
+               
+            </tr>
+            <tr>
+                <td colspan="2"><table border="0"><tr><td>Señor(es):</td><td>{{detalleVenta.nombre}} {{detalleVenta.apellidos}}</td></tr></table></td>
+            </tr>
+            <tr>
+                <td><table border="0"><tr><td>C.C./NIT:</td><td>{{detalleVenta.cedula}}</td></tr></table></td>
+                <td><table border="0"><tr><td>Tel/Cel:</td><td>{{detalleVenta.telefono}}</td></tr></table></td>
+            </tr>
+            <tr>
+                <td colspan="2"><table border="0"><tr><td>Direccion:</td><td>{{detalleVenta.direccion}} {{detalleVenta.barrio}}</td></tr></table>
+            </tr>
+        </table>
+            <br>
+
+            <table width="100%" border="1" style="border-collapse: collapse;border:1px solid #c3c3c3;">
+                <tr>
+                    <td colspan="2" width="70%">Valor de Pago:</td>
+                    <td colspan="2" align="right">{{Pago.valor | currency}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" width="70%">SALDO:</td>
+                    <td colspan="2" align="right"> {{detalleVenta.saldo - Pago.valor | currency}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
     </div>
 
+<!--
+ <tbody>
+                                                    <tr>
+                                                        <td>Cedula:</td>
+                                                        <td>{{detalleVenta.cedula}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nombres:</td>
+                                                        <td>{{detalleVenta.nombre}} {{detalleVenta.apellidos}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Telefono:</td>
+                                                        <td>{{detalleVenta.telefono}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Ciudad:</td>
+                                                        <td>{{detalleVenta.ciudad}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Direccion</td>
+                                                        <td>{{detalleVenta.direccion}} {{detalleVenta.barrio}}</td>
+                                                    </tr>
+                                                </tbody>
+-->
 <script>
     function tab(id) {
         if (id == 1) {

@@ -25,7 +25,8 @@ app.controller('recaudosController',['$scope','$rootScope','$http', function ($s
         }
         
         $scope.getByFechas = function(){
-
+            $('#fechaInicial').html($('#fechaInicio').val());
+            $('#fechaFinal').html($('#fechaFin').val());
            $http.get(uri+'/api/pagos/Byfecha/'+$('#fechaInicio').val()+'/'+$('#fechaFin').val()).success(function (respuesta){
                     $scope.Recaudos= respuesta;  
                    for(i=0; i< $scope.Recaudos.length; i++){
@@ -79,13 +80,18 @@ app.controller('recaudosController',['$scope','$rootScope','$http', function ($s
           if( saldo <= 0){
                toastr["error"]("La deduda ya ha sido cancelada, por favor verifique.");
           }else{
+              $("#fechaPagoFactura").html($('#fechaPago').val());
             $scope.Pago.fecha = $('#fechaPago').val();
+            
+            
+            
              $scope.Pago.fechaLimite = $('#fechaLimite').val();
                $scope.Pago.id_fechaLimite = $('#id_fechaLimite').val();
             $scope.Pago.saldo = saldo-$scope.Pago.valor;
             $scope.Pago.venta =$scope.detalleVenta.idventa;
-            console.log($scope.Pago);
+         
             $http.post(uri+'/api/pagos',$scope.Pago).success(function (respuesta){
+                $scope.imprimirAbono();
                   swal({   title: "Buen Trabajo!",   text:respuesta.message,   timer: 1000,   showConfirmButton: false });
                   setTimeout("location.reload()", 1000);
                  
@@ -165,7 +171,42 @@ app.controller('recaudosController',['$scope','$rootScope','$http', function ($s
                 });
         };    
  
+ $scope.imprimir = function(){
+      var data = jQuery('#reporte').html();
+        var mywindow = window.open('', 'Reporte De reacaudo Credimar');
+        mywindow.document.write('<html><head><title>Reporte de recaudo</title>');
+        mywindow.document.write(' <link href="../css/impresion.css" rel="stylesheet" type="text/css" media="print"/>');
+        mywindow.document.write(data);
+        mywindow.document.write('</body></html>');
+        setTimeout(function() {
+            mywindow.print();
+
+            mywindow.close();
+
+
+            location.reload();
+        }, 250);
+ }
+ 
+  $scope.imprimirAbono = function(){
+      var data = jQuery('#facturaAbono').html();
+        var mywindow = window.open('', 'Factura de Abono Credimar');
+        mywindow.document.write('<html><head><title>Factura de Abono Credimar</title>');
+        mywindow.document.write(' <link href="../css/impresion.css" rel="stylesheet" type="text/css" media="print"/>');
+        mywindow.document.write(data);
+        mywindow.document.write('</body></html>');
+        setTimeout(function() {
+            mywindow.print();
+
+            mywindow.close();
+
+
+            location.reload();
+        }, 250);
+ }
     }]); 
+
+
 
 
 

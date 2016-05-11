@@ -3,29 +3,47 @@
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-lg-12">
                         <h2>Reporte de Recaudos</h2>
                     </div>
-                        <div class='col-lg-5'>
+                        <div class='col-lg-8'>
                             <table>
                                 <tr>
-                                    <td><div class="input-group"><label>Fecha Inicio</label>
-                                 <input type="date"  class="input-sm form-control" id='fechaInicio' > 
-                                        </div></td>
+                                    <td>
+                                           <div class="form-group ">
+                                                 <label>Fecha de inicial</label>
+                                                 <div class="input-group date">
+                                                     <span class="input-group-addon">
+                                                         <i class="fa fa-calendar"></i>
+                                                     </span><input type="date" class="form-control ng-pristine ng-untouched ng-valid" id="fechaInicio">
+                                                 </div>
+                                             </div> 
+                                        
+                                    </td>
                                         <td>
-                                            <div class="input-group" style='margin-left:10px;'><label>Fecha Fin</label><input type="date"  class="input-sm form-control" id='fechaFin'>
-                                    </div>
+                                           <div class="form-group">
+                                                    <label>Fecha de inicial</label>
+                                                    <div class="input-group date">
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </span><input type="date" class="form-control ng-pristine ng-untouched ng-valid" id="fechaFin">
+                                                    </div>
+                                                </div>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-sm btn-primary" style='margin-top:28px;' ng-click='getByFechas();'><i class="fa fa-search"></i></button> 
+                                            <button type="button" class="btn btn-sm btn-primary" style='margin-top:13px;' ng-click='getByFechas();'><i class="fa fa-search"></i></button> 
                                         </td>
                                 </tr>
                             </table>
                         </div>
                
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <div class="input-group" style='margin-top:30px;'><input type="text" placeholder="Buscador" class="input-sm form-control"  ng-model="filtro"> <span class="input-group-btn">
-                                <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-search"></i></button> </span></div>
+                                <button type="button" class="btn btn-sm btn-success"><i class="fa fa-search"></i></button>
+                                  <button class="btn btn-primary" title="Generar Reporte"  ng-click="imprimir();" style="margin-left: 10px;"><i class="fa fa-print"></i></button>
+                            
+                            </span></div>
+                              
                     </div>
                 </div>
                 <div class="hr-line-dashed"></div>
@@ -300,6 +318,53 @@
             </div>
             </div>
         </div>
+    <div class="row" id="reporte" style="display:none;">
+        <div class="col-lg-7">
+        <table border="1" style="border-collapse: collapse;border:1px solid #c3c3c3;">
+            <tr>
+                <td width="60%;" style="text-align: center"><img src="../images/logo.png" alt="" width="200px"/></td>
+                <td><p style="padding: 8px;font-size:11px;">Carrera 14 #7-93 - tel/cel: 301 643 77 81  - 301 354 332 47 Barrio Primero de Mayo<br>Agustin Codazzi - Cesar</p></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;"><p style="font-size:11px;padding-top:8px;padding-bottom:8px;">REPORTE DE ABONO</p></td>
+            </tr> 
+            <tr>
+                <td><table border="0"><tr><td>Fecha Inicial:</td><td><div id="fechaInicial" style="font-weight:600;padding:0px;border-radius:5px; "></div></td></tr></table></td>
+                <td><table border="0"><tr><td>Fecha Final:</td><td><div id="fechaFinal" style="font-weight:600;padding:0px;border-radius:5px; "></div></td></tr></table></td>
+            </tr>
+           
+        </table>
+            <br>
+            <table width="100%" border="1" style="border-collapse: collapse;border:1px solid #c3c3c3;">
+                <tr>
+                    <td width="10%;">Cedula</td>
+                    <td>Nombres</td>
+                    <td style="text-align: center;">Factura #</td>
+                     <td style="text-align: center;">Fecha de pago</td>
+                     <td style="text-align: center;">Fecha Limite</td>
+                     <td style="text-align: center;">recaudo #</td>
+                     <td style="text-align: center;">Valor</td>
+                </tr> 
+                <tr ng-repeat="item in Recaudos | filter: filtro | orderBy:'-id'">
+                                <td>{{item.cedula}}</td>
+                                <td>{{item.nombre}}  {{item.apellidos}}</td>
+                                <td>{{item.num_factura}}</td>
+                                <td>{{item.fecha}}</td>
+                                <td>{{item.fechaLimite}}</td>
+                                <td>{{item.id}}</td>
+                                <td>{{item.valor | currency}}</td>
+     
+                            </tr>
+            </table>
+            <br>
+            <table width="100%" border="1" style="border-collapse: collapse;border:1px solid #c3c3c3;">
+                <tr>
+                    <td colspan="2" width="70%">TOTAL RECAUDO:</td>
+                    <td colspan="2" align="right"><h2 style='font-weight:900'>{{recaudo_total | currency}}</h2></td>
+                </tr>
+            </table>
+        </div>
+    </div>
     
 </div>
 
