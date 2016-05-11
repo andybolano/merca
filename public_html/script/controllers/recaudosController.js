@@ -7,6 +7,7 @@ app.controller('recaudosController',['$scope','$rootScope','$http', function ($s
         $scope.recaudo_total = 0;
         $rootScope.listaPagos = {};
         $rootScope.fechaPagos = {};
+        $scope.sapo = 1;
         
                   Date.prototype.toDateInputValue = (function() {
                 var local = new Date(this);
@@ -77,6 +78,7 @@ app.controller('recaudosController',['$scope','$rootScope','$http', function ($s
         };
         
         $scope.registroPago = function(saldo){
+            $scope.sapo = 0;
           if( saldo <= 0){
                toastr["error"]("La deduda ya ha sido cancelada, por favor verifique.");
           }else{
@@ -188,6 +190,17 @@ app.controller('recaudosController',['$scope','$rootScope','$http', function ($s
         }, 250);
  }
  
+ $scope.preImprimirAbono = function(item){
+     $scope.sapo = 1;
+     $scope.Pago.valor = item.valor;
+     $scope.detalleVenta.saldo = item.saldo;
+     $("#fechaPagoFactura").html(item.fecha);
+     setTimeout(function(){ $scope.imprimirAbono(); }, 1000);
+   
+    
+     
+ }
+
   $scope.imprimirAbono = function(){
       var data = jQuery('#facturaAbono').html();
         var mywindow = window.open('', 'Factura de Abono Credimar');

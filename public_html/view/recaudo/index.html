@@ -283,7 +283,8 @@
                                                                 <td>{{item.saldo | currency}}</td>
                                                                  <td style="text-align: center">
                                     <a href="javasrcritp:;"  title="Anular Pago" data-toggle="modal"  ng-click="deletePago(item)"><i class="fa fa-close" style="font-size:20px;color:red;"></i></a>
-                                </td>
+                                <a href="javasrcritp:;"  title="Anular Pago" data-toggle="modal"  ng-click="preImprimirAbono(item)"><i  class="fa fa-print" style="font-size:20px;color:green;"></i>
+                                                                 </td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -387,7 +388,7 @@
                 <td colspan="2" style="text-align: center;"><p style="font-size:11px;padding-top:8px;padding-bottom:8px;">VENTA DE MUEBLES, NEVERAS, TELEVISORES, CAMAS, COLCHONES, LAVADORAS, ESTUFAS, ESCAPARATES, COMEDORES DE CONTADO Y CREDITO</p></td>
             </tr> 
             <tr>
-                <td colspan="2"><table border="0"><tr><td>Fecha de remision:</td><td></td></tr></table></td>
+                <td colspan="2"><table border="0"><tr><td>Fecha de remision:</td><td><div id="fechaPagoFactura"></div></td></tr></table></td>
                
             </tr>
             <tr>
@@ -407,10 +408,10 @@
                 <tr>
                     <td colspan="2" width="70%">Valor de Pago:</td>
                     <td colspan="2" align="right">{{Pago.valor | currency}}</td>
-                </tr>
                 <tr>
-                    <td colspan="2" width="70%">SALDO:</td>
-                    <td colspan="2" align="right"> {{detalleVenta.saldo - Pago.valor | currency}}</td>
+                   <td colspan="2" width="70%">SALDO:</td>
+                    <td colspan="2" align="right" ng-if="sapo == 0"> {{detalleVenta.saldo - Pago.valor | currency}}</td>
+                    <td colspan="2" align="right" ng-if="sapo == 1"> {{detalleVenta.saldo | currency}}</td>
                 </tr>
             </table>
         </div>
