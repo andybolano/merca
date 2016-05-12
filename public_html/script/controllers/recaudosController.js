@@ -189,7 +189,22 @@ app.controller('recaudosController',['$scope','$rootScope','$http', function ($s
             location.reload();
         }, 250);
  }
- 
+  $scope.printFacturaVenta = function(){
+      var data = jQuery('#facturaVenta').html();
+        var mywindow = window.open('', 'Reporte De reacaudo Credimar');
+        mywindow.document.write('<html><head><title>Reporte de recaudo</title>');
+        mywindow.document.write(' <link href="../css/impresion.css" rel="stylesheet" type="text/css" media="print"/>');
+        mywindow.document.write(data);
+        mywindow.document.write('</body></html>');
+        setTimeout(function() {
+            mywindow.print();
+
+            mywindow.close();
+
+
+            location.reload();
+        }, 250);
+ }
  $scope.preImprimirAbono = function(item){
      $scope.sapo = 1;
      $scope.Pago.valor = item.valor;

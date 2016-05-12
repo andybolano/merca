@@ -111,6 +111,10 @@
                                                         <td>Direccion</td>
                                                         <td>{{detalleVenta.direccion}} {{detalleVenta.barrio}}</td>
                                                     </tr>
+                                                     <tr>
+                                                        <td></td>
+                                                        <td><button class="btn btn-primary" ng-click="printFacturaVenta();"><i  class="fa fa-print" style="font-size:20px;"></i> Imprimir factura</button></td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -201,6 +205,62 @@
                                         </div>
 
                                     </div>
+                                    
+                               <!---------------factura venta-------------------------------------------->
+    
+     <div class="row" id="facturaVenta" style="display: none">
+        <div class="col-lg-7">
+        <table border="1" style="border-collapse: collapse;border:1px solid #c3c3c3;">
+            <tr>
+                <td width="60%;" style="text-align: center"><img src="../images/logo.png" alt="" width="200px"/></td>
+                <td><p style="padding: 8px;font-size:11px;">Carrera 14 #7-93 - tel/cel: 301 643 77 81  - 301 354 332 47 Barrio Primero de Mayo<br>Agustin Codazzi - Cesar</p></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;"><p style="font-size:11px;padding-top:8px;padding-bottom:8px;">VENTA DE MUEBLES, NEVERAS, TELEVISORES, CAMAS, COLCHONES, LAVADORAS, ESTUFAS, ESCAPARATES, COMEDORES DE CONTADO Y CREDITO</p></td>
+            </tr> 
+            <tr>
+                <td><table border="0"><tr><td>Fecha de remision:</td><td>{{detalleVenta.fecha}}</td></tr></table></td>
+                <td><table border="0"><tr><td>Remision N:</td><td><div id="codigo_r" style="background-color:#1e88e5;color:#FFF;font-weight:900;padding:3px;border-radius:5px; ">{{detalleVenta.id}}</div></td></tr></table></td>
+            </tr>
+            <tr>
+                <td colspan="2"><table border="0"><tr><td>Señor(es):</td><td>{{detalleVenta.nombre}} {{detalleVenta.apellidos}}</td></tr></table></td>
+            </tr>
+            <tr>
+                <td><table border="0"><tr><td>C.C./NIT:</td><td>{{detalleVenta.cedula}}</td></tr></table></td>
+                <td><table border="0"><tr><td>Tel/Cel:</td><td>{{detalleVenta.telefono}}</td></tr></table></td>
+            </tr>
+            <tr>
+                <td colspan="2"><table border="0"><tr><td>Direccion:</td><td>{{detalleVenta.direccion}} {{detalleVenta.barrio}} {{detalleVenta.ciudad}}</td></tr></table>
+            </tr>
+        </table>
+            <br>
+            <table width="100%" border="1" style="border-collapse: collapse;border:1px solid #c3c3c3;">
+                <tr>
+                    <td width="10%;">Cantidad</td>
+                    <td>Articulo</td>
+                    <td style="text-align: center;">V. unitario</td>
+                     <td style="text-align: center;">VALOR TOTAL</td>
+                </tr> 
+                 <tbody>
+                     <tr ng-repeat="item in Productos| filter: filtro | orderBy:'-id'">
+                          <td>{{item.nombre}}</td>
+                          <td>{{item.cantidad}}</td>
+                           <td>{{item.precio| currency}}</td>
+                          <td>{{item.total| currency}}</td>
+                           </tr>
+                       </tbody>
+            </table>
+            <br>
+            <table width="100%" border="1" style="border-collapse: collapse;border:1px solid #c3c3c3;">
+               
+                <tr>
+                    <td colspan="2" width="70%">TOTAL:</td>
+                    <td colspan="2" align="right"> {{detalleVenta.abono + detalleVenta.subtotal| currency}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+                                     
                                 </div>
                             </div>
                             <div id="tab-2" class="tab-pane">
@@ -416,6 +476,11 @@
             </table>
         </div>
     </div>
+    
+    
+    
+   
+    
     </div>
 
 <!--
